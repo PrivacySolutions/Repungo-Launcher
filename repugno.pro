@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core
+QT       += core widgets network gui
 
-QT       -= gui
+
 
 TARGET = repugno
 CONFIG   += console
@@ -15,6 +15,13 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp repugnoapplication.cpp
+SOURCES += main.cpp repugnoapplication.cpp \
+    repugnotray.cpp \
+    dummyobject.cpp
 
-HEADERS += repugnoapplication.h
+HEADERS += repugnoapplication.h \
+    repugnotray.h \
+    dummyobject.h
+
+RESOURCES += \
+    resources.qrc
