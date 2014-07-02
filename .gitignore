@@ -5,6 +5,8 @@
 # Debug files
 i2p/*
 jre/*
+conf/*
+repugno
 
 # GCC/Make
 Makefile

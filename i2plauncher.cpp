@@ -33,13 +33,14 @@ void I2PLauncher::Run()
     // Environment overriding
     QStringList env = QProcess::systemEnvironment();
     env << RepugnoApplication::applicationDirPath() +QDir::separator()+ "tmp";
+    env << "_JAVA_OPTIONS=-Xmx128M"; // This is required for a JRE to start.
     env << "JAVA_HOME="+m_jrePath;
     qDebug() << "JAVA_HOME="+m_jrePath;
     p.setEnvironment(env);
 
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
-    p.start(cmd);
+    p.startDetached(cmd);
     qDebug() << "I2P should have started now.";
 }
 
@@ -69,7 +70,7 @@ QString I2PLauncher::GenerateLaunchCommand()
     QString i2p_config = QCoreApplication::applicationDirPath() + QDir::separator() + "conf";
     QString mainClass = I2PMAINCLASS;
     compiledString += m_jrePath;
-    compiledString += javaExec + " -cp" + classPath;
+    compiledString += javaExec + " -cp ." + classPath;
     compiledString += " -Di2p.dir.base="+m_i2pPath + " -Di2p.dir.config="+ i2p_config + " " + mainClass;
     qDebug() << "CMD so far: " << compiledString;
 
