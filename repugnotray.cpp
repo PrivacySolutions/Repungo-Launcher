@@ -14,6 +14,11 @@ RepugnoTray::RepugnoTray() : DummyObject()
     sysTray->setVisible(true);
 }
 
+void RepugnoTray::exitApp()
+{
+    // For later
+}
+
 void RepugnoTray::createActions()
 {
     quitAction = new QAction(tr("Quit"), this);

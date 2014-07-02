@@ -27,6 +27,8 @@ private:
 
     QSystemTrayIcon *sysTray;
     QMenu *m_stMenu;
+private slots:
+    void exitApp();
 };
 
 #endif // REPUGNOTRAY_H
