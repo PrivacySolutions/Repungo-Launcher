@@ -32,7 +32,7 @@ void I2PLauncher::Run()
     // Environment overriding
     QStringList env = QProcess::systemEnvironment();
     env << RepugnoApplication::applicationDirPath() +QDir::separator()+ "tmp";
-    env << "_JAVA_OPTIONS=-Xmx128M"; // This is required for a JRE to start.
+    env << "_JAVA_OPTIONS=-Xmx"+QString(DEFAULT_MEMORY)+"M"; // This is required for a JRE to start.
     env << "JAVA_HOME="+m_jrePath;
     qDebug() << "JAVA_HOME="+m_jrePath;
     p.setEnvironment(env);
