@@ -4,6 +4,8 @@
 #include <QApplication>
 #include <QSettings>
 #include "repugnotray.h"
+#include "applauncher.h"
+#include "i2plauncher.h"
 
 class RepugnoApplication : public QApplication
 {

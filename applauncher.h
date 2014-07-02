@@ -8,6 +8,7 @@
 
 class AppLauncher : DummyObject
 {
+    Q_OBJECT
 public:
     AppLauncher(QString *appCmdPath);
     QString getAppName();

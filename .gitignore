@@ -2,6 +2,10 @@
 *.user
 *.swp
 
+# Debug files
+i2p/*
+jre/*
+
 # GCC/Make
 Makefile
 *.o
