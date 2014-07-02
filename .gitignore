@@ -1,6 +1,16 @@
+# User stuff
 *.user
 *.swp
 
+# GCC/Make
+Makefile
+*.o
+
+# Qt
+moc_*.cpp
+qrc_resources.cpp
+
+# OS Shit
 .DS_Store
 Thumbs.db
 
