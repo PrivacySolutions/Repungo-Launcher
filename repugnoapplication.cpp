@@ -23,7 +23,15 @@ void RepugnoApplication::rememberLastNight()
 }
 
 void RepugnoApplication::locateAbscond()
-{}
+{
+    QDir *i2pDir = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"Browser");
+    if (!i2pDir->exists())
+    {
+        printf("Critical error! Can't find the browser!!");
+        QCoreApplication::exit(1);
+    }
+    i2pPath = i2pDir->absolutePath();
+}
 
 void RepugnoApplication::locateJRE()
 {
@@ -69,7 +77,15 @@ void RepugnoApplication::locateJRE()
 }
 
 void RepugnoApplication::locateI2P()
-{}
+{
+    QDir *i2pDir = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"i2p");
+    if (!i2pDir->exists())
+    {
+        printf("Critical error! Can't find I2P!!");
+        QCoreApplication::exit(1);
+    }
+    i2pPath = i2pDir->absolutePath();
+}
 
 void RepugnoApplication::configReset()
 {
