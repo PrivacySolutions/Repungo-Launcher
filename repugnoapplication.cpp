@@ -3,11 +3,18 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // getenv
 
+#include "i2plauncher.h"
 
 
+void RepugnoApplication::InitAll()
+{
+    // Start with I2P, it needs 2minutes.
+    I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
+}
 
 void RepugnoApplication::rememberLastNight()
 {
+    // Load config
     QString settingsFile = RepugnoApplication::applicationDirPath()+QDir::separator()+"RepugnoAppSettings.conf";
     QFile *tmp = new QFile(settingsFile);
     printf("Settings file: %s", qPrintable(settingsFile));
@@ -17,9 +24,14 @@ void RepugnoApplication::rememberLastNight()
         printf("Settings file not found. Creating one!");
         configReset();
     }
+
+    // Preload paths
     locateJRE();
     locateI2P();
     locateAbscond();
+
+    // Init process
+    InitAll();
 }
 
 void RepugnoApplication::locateAbscond()
@@ -97,7 +109,20 @@ void RepugnoApplication::createTrayIcon()
     trayIcon = new RepugnoTray();
 }
 
+QString RepugnoApplication::getJREPath()
+{
+    return jrePath;
+}
 
+QString RepugnoApplication::getI2PPath()
+{
+    return i2pPath;
+}
+
+QString RepugnoApplication::getBrowserPath()
+{
+    return abscondPath;
+}
 
 void RepugnoApplication::becomeSelfaware()
 {

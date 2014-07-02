@@ -18,12 +18,14 @@ TEMPLATE = app
 SOURCES += main.cpp repugnoapplication.cpp \
     repugnotray.cpp \
     dummyobject.cpp \
-    i2plauncher.cpp
+    i2plauncher.cpp \
+    applauncher.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
     dummyobject.h \
-    i2plauncher.h
+    i2plauncher.h \
+    applauncher.h
 
 RESOURCES += \
     resources.qrc

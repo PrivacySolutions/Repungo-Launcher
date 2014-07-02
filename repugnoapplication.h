@@ -10,6 +10,10 @@ class RepugnoApplication : public QApplication
     Q_OBJECT
 public:
     explicit RepugnoApplication(int & argc, char ** argv);
+    QString getJREPath();
+    QString getI2PPath();
+    QString getBrowserPath();
+    void InitAll();
 
 signals:
 
