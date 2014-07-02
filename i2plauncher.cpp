@@ -28,7 +28,6 @@ void I2PLauncher::Run()
     workerThread.start();*/
     QProcess p;
     QString cmd = I2PLauncher::GenerateLaunchCommand();
-    printf ("[+] Starting I2P with command: %s", qPrintable(cmd));
 
     // Environment overriding
     QStringList env = QProcess::systemEnvironment();
@@ -38,10 +37,26 @@ void I2PLauncher::Run()
     qDebug() << "JAVA_HOME="+m_jrePath;
     p.setEnvironment(env);
 
+    // TODO: Add optional?
+    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"log");
+    if (!logDir->exists()) logDir->mkdir(logDir->absolutePath());
+
+    p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
+    p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
+
+    //TODO: Check if location is different from i2psnark.config and change in case it is.
+
+
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
     p.startDetached(cmd);
-    qDebug() << "I2P should have started now.";
+#if QT_VERSION < 0x050300
+    qint64 i2pPid = p.pid();
+    //ProcessId first added in Qt 5.3
+#else
+    qint64 i2pPid = p.processId();
+#endif
+    qDebug() << "I2P should have started now. With process id: " << QString::number(i2pPid);
 }
 
 QString I2PLauncher::GenerateLaunchCommand()
@@ -71,7 +86,11 @@ QString I2PLauncher::GenerateLaunchCommand()
     QString mainClass = I2PMAINCLASS;
     compiledString += m_jrePath;
     compiledString += javaExec + " -cp ." + classPath;
-    compiledString += " -Di2p.dir.base="+m_i2pPath + " -Di2p.dir.config="+ i2p_config + " " + mainClass;
+    compiledString += " -Di2p.dir.base="+m_i2pPath +
+            " -Dorg.mortbay.util.FileResource.checkAliases=false -DloggerFilenameOverride="+
+            QCoreApplication::applicationDirPath() + QDir::separator() +"log/i2p-log-router-@.txt " +
+            "-Djava.library.path=.;"+ QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
+            "-Dorg.mortbay.http.Version.paranoid=true -Di2p.dir.config="+ i2p_config + " " + mainClass;
     qDebug() << "CMD so far: " << compiledString;
 
     //I2PRunner::i2pCommand = compiledString;
