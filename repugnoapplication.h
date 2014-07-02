@@ -2,6 +2,7 @@
 #define REPUGNOAPPLICATION_H
 
 #include <QApplication>
+#include <QSettings>
 #include "repugnotray.h"
 
 class RepugnoApplication : public QApplication
@@ -14,10 +15,19 @@ signals:
 
 private:
     void becomeSelfaware();
+    void rememberLastNight();
+    void locateI2P();
+    void locateJRE();
+    void locateAbscond();
     void createTrayIcon();
+    void configReset();
+
+    QString jrePath;
+    QString i2pPath;
+    QString abscondPath;
 
     RepugnoTray *trayIcon;
-
+    QSettings *longtermMemory;
 
 public slots:
 
