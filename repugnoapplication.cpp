@@ -33,19 +33,17 @@ void RepugnoApplication::InitAll()
 #ifdef WIN32
 #ifdef DEBUG
     QString parameters = "-jsconsole -no-remote -profile \""+
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
 #else
     QString parameters = "--args -no-remote -profile \""+
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
 #endif
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
 #else
 #ifdef DEBUG
     QString parameters = "-jsconsole -no-remote -profile \""+
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
 #else
     QString parameters = "--args -no-remote -profile \""+
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
 #endif
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
 #endif
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+parameters);
     AppLauncher *al = new AppLauncher(temp);
