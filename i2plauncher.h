@@ -39,12 +39,13 @@ private:
     QProcess process;
 };*/
 
-class I2PLauncher : public DummyObject
+class I2PLauncher : public QObject
 {
     Q_OBJECT
     //QThread workerThread;
 public:
     I2PLauncher(QString jrePath, QString i2pPath);
+//    I2PLauncher(QObject *parent = 0);
     /*~I2PLauncher();
     {
         workerThread.quit();

@@ -70,7 +70,13 @@ QString I2PLauncher::GenerateLaunchCommand()
         QString tmp = it.next();
         QFileInfo *fTest = new QFileInfo(tmp);
         if ( fTest->isDir() ) continue; // Only allow jars for now
-        classPath += ":"+tmp;
+        classPath +=
+#ifdef WIN32
+                ";"
+#else
+                ":"
+#endif
+                +tmp;
         qDebug() << "[+] Added "<< tmp << " to classpath.";
     }
     qDebug() << "[+] Classpath looks like: " << classPath;

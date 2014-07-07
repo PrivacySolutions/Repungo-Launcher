@@ -14,6 +14,8 @@
 void RepugnoApplication::InitAll()
 {
     // Start with I2P, it needs 2minutes.
+    qDebug() << "JRE Path is: " << jrePath;
+    qDebug() << "I2P Path is: " << i2pPath;
     I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
     i2pLauncher->Run();
 

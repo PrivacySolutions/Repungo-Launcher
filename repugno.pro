@@ -17,14 +17,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp repugnoapplication.cpp \
     repugnotray.cpp \
-    dummyobject.cpp \
     i2plauncher.cpp \
+    dummyobject.cpp \
     applauncher.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
-    dummyobject.h \
     i2plauncher.h \
+    dummyobject.h \
     applauncher.h
 
 RESOURCES += \
