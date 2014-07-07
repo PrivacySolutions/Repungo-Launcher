@@ -94,7 +94,7 @@ QString I2PLauncher::GenerateLaunchCommand()
     compiledString += javaExec + " -cp ." + classPath;
     compiledString += " -Di2p.dir.base="+m_i2pPath +
             " -Dorg.mortbay.util.FileResource.checkAliases=false -DloggerFilenameOverride="+
-            QCoreApplication::applicationDirPath() + QDir::separator() +"log/i2p-log-router-@.txt " +
+            QCoreApplication::applicationDirPath() + QDir::separator() +"log"+ QDir::separator() +"i2p-log-router-@.txt " +
             "-Djava.library.path=.;"+ QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
             "-Dorg.mortbay.http.Version.paranoid=true -Di2p.dir.config="+ i2p_config + " " + mainClass;
     qDebug() << "CMD so far: " << compiledString;
