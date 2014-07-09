@@ -2,24 +2,29 @@
 #include <QFile>
 #include <QMessageBox>
 
-AppLauncher::AppLauncher(QString *appCmdPath) : DummyObject()
+AppLauncher::AppLauncher(QString *appCmdPath)
 {
-    //connect error() to slot processError() to get error, if occurs.
-    QObject::connect( &process, SIGNAL(error(QProcess::ProcessError)),
-                          this, SLOT(processError(QProcess::ProcessError)));
-
-    // Get executable's name
-    QFile *f = new QFile(*appCmdPath);
-    appName = f->fileName();
-    delete f;
-
-    //pass the name of executable that's gonna launch.
-    process.start(*appCmdPath);
+    cmdLine = appCmdPath;
 }
 
 QString AppLauncher::getAppName()
 {
     return appName;
+}
+
+void AppLauncher::Run()
+{
+    //connect error() to slot processError() to get error, if occurs.
+   /* QObject::connect( &process, SIGNAL(error(QProcess::ProcessError)),
+                          this, SLOT(processError(QProcess::ProcessError)));
+*/
+    // Get executable's name
+    QFile *f = new QFile(*cmdLine);
+    appName = f->fileName();
+    delete f;
+
+    //pass the name of executable that's gonna launch.
+    process.start(*cmdLine);
 }
 
 //get errors, if any

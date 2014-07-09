@@ -28,6 +28,7 @@ void RepugnoTray::launchBrowser()
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #endif
     AppLauncher *al = new AppLauncher(temp);
+    al->Run();
     delete temp; //TODO Keep track of al and cleanup
 }
 

@@ -3,6 +3,7 @@
 
 //#include <QThread>
 #include <QProcess>
+
 /*
 class Constants{
 public:
@@ -10,6 +11,7 @@ public:
 };*/
 
 #include "dummyobject.h"
+#include "ilauncher.h"
 
 #define I2PMAINCLASS "net.i2p.router.RouterLaunch"
 #define DEFAULT_MEMORY 128 // Maybe 128mb is too small wrt I2P-Bote, Seedless, I2PSnark etc?
@@ -39,7 +41,7 @@ private:
     QProcess process;
 };*/
 
-class I2PLauncher : public QObject
+class I2PLauncher : public ILauncher
 {
     Q_OBJECT
     //QThread workerThread;

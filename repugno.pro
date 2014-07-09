@@ -18,13 +18,17 @@ SOURCES += main.cpp repugnoapplication.cpp \
     repugnotray.cpp \
     i2plauncher.cpp \
     dummyobject.cpp \
-    applauncher.cpp
+    applauncher.cpp \
+    childprocessthread.cpp \
+    ilauncher.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
     i2plauncher.h \
     dummyobject.h \
-    applauncher.h
+    applauncher.h \
+    childprocessthread.h \
+    ilauncher.h
 
 RESOURCES += \
     resources.qrc
