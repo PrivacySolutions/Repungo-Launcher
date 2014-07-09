@@ -9,6 +9,7 @@
 #include <QMessageBox>
 
 #include "i2plauncher.h"
+#include "childprocessthread.h"
 
 QString RepugnoApplication::getBrowserParameters()
 {
@@ -39,7 +40,8 @@ void RepugnoApplication::LaunchBrowser()
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #endif
     AppLauncher *al = new AppLauncher(temp);
-    al->Run();
+    ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
+    cpt->run();
     delete temp;
 }
 
@@ -49,7 +51,8 @@ void RepugnoApplication::InitAll()
     qDebug() << "JRE Path is: " << jrePath;
     qDebug() << "I2P Path is: " << i2pPath;
     I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
-    i2pLauncher->Run();
+    ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
+    cpt->run();
 
     // Message about 2min warmup
     if (longtermMemory->value("donotshowagainboxes/thewarmupinfo", 0).toInt() == 0)

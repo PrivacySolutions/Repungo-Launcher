@@ -1,6 +1,7 @@
 #include "repugnotray.h"
 #include "repugnoapplication.h"
 #include "dummyobject.h"
+#include "childprocessthread.h"
 #include <QIcon>
 #include <QAction>
 #include <Qdir>
@@ -28,7 +29,8 @@ void RepugnoTray::launchBrowser()
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #endif
     AppLauncher *al = new AppLauncher(temp);
-    al->Run();
+    ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
+    cpt->run();
     delete temp; //TODO Keep track of al and cleanup
 }
 
