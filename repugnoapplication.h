@@ -15,6 +15,8 @@ public:
     QString getJREPath();
     QString getI2PPath();
     QString getBrowserPath();
+    static QString getBrowserParameters();
+    void LaunchBrowser();
     void InitAll();
 
 signals:

@@ -22,12 +22,14 @@ private:
 
     QAction *aboutApplicationAction;
     QAction *restartBrowserAction;
+    QAction *launchBrowserAction;
     QAction *restartI2PAction;
     QAction *quitAction;
 
     QSystemTrayIcon *sysTray;
     QMenu *m_stMenu;
 private slots:
+    void launchBrowser();
     void exitApp();
 };
 

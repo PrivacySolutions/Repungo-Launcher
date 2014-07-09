@@ -10,6 +10,34 @@
 
 #include "i2plauncher.h"
 
+QString RepugnoApplication::getBrowserParameters()
+{
+    // Firefox startup
+#ifdef WIN32
+#ifdef DEBUG
+    QString parameters = "-jsconsole -no-remote -profile \""+
+#else
+    QString parameters = "--args -no-remote -profile \""+
+#endif
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
+#else
+#ifdef DEBUG
+    QString parameters = "-jsconsole -no-remote -profile \""+
+#else
+    QString parameters = "--args -no-remote -profile \""+
+#endif
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
+#endif
+    return parameters;
+}
+
+void RepugnoApplication::LaunchBrowser()
+{
+
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+    AppLauncher *al = new AppLauncher(temp);
+    delete temp;
+}
 
 void RepugnoApplication::InitAll()
 {
@@ -31,31 +59,14 @@ void RepugnoApplication::InitAll()
         msgBox.exec();
     }
 
-    // Firefox startup
-#ifdef WIN32
-#ifdef DEBUG
-    QString parameters = "-jsconsole -no-remote -profile \""+
-#else
-    QString parameters = "--args -no-remote -profile \""+
-#endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
-#else
-#ifdef DEBUG
-    QString parameters = "-jsconsole -no-remote -profile \""+
-#else
-    QString parameters = "--args -no-remote -profile \""+
-#endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
-#endif
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+parameters);
-    AppLauncher *al = new AppLauncher(temp);
-    delete temp;
+    // Browser
+    LaunchBrowser();
 }
 
 void RepugnoApplication::rememberLastNight()
 {
     // Load config
-    QString settingsFile = RepugnoApplication::applicationDirPath()+QDir::separator()+"RepugnoAppSettings.conf";
+    QString settingsFile = RepugnoApplication::applicationDirPath()+QDir::separator()+"Config"+QDir::separator()+"RepugnoAppSettings.conf";
     QFile *tmp = new QFile(settingsFile);
     qDebug() << "Settings file: %s", qPrintable(settingsFile);
     longtermMemory = new QSettings(settingsFile, QSettings::IniFormat); // Use ini format because of support for multiple OS
@@ -69,7 +80,7 @@ void RepugnoApplication::rememberLastNight()
     // Preload paths
     locateJRE();
     locateI2P();
-    //locateAbscond();
+    locateAbscond();
 
     // Init process
     InitAll();
@@ -111,7 +122,7 @@ void RepugnoApplication::locateJRE()
 {
     // Should be in the same folder.
     QString jreDir;
-    QDir *javaHome = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"jre");
+    QDir *javaHome = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"I2P"+QDir::separator()+"jre");
     if (!javaHome->exists())
     {
         // OK... Not in the normal location. Let's check environment.
@@ -153,7 +164,7 @@ void RepugnoApplication::locateJRE()
 
 void RepugnoApplication::locateI2P()
 {
-    QDir *i2pDir = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"i2p");
+    QDir *i2pDir = new QDir(QCoreApplication::applicationDirPath()+QDir::separator()+"I2P"+QDir::separator()+"I2PApp");
     if (!i2pDir->exists())
     {
         qDebug() << "Critical error! Can't find I2P!!";

@@ -31,14 +31,14 @@ void I2PLauncher::Run()
 
     // Environment overriding
     QStringList env = QProcess::systemEnvironment();
-    env << RepugnoApplication::applicationDirPath() +QDir::separator()+ "tmp";
+    env << RepugnoApplication::applicationDirPath() +QDir::separator()+ "Temp";
     env << "_JAVA_OPTIONS=-Xmx"+QString(DEFAULT_MEMORY)+"M"; // This is required for a JRE to start.
     env << "JAVA_HOME="+m_jrePath;
     qDebug() << "JAVA_HOME="+m_jrePath;
     p.setEnvironment(env);
 
     // TODO: Add optional?
-    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"log");
+    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"Logs");
     if (!logDir->exists()) logDir->mkdir(logDir->absolutePath());
 
     p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
@@ -88,14 +88,16 @@ QString I2PLauncher::GenerateLaunchCommand()
     "/bin/java "
 #endif
     ;
-    QString i2p_config = QCoreApplication::applicationDirPath() + QDir::separator() + "conf";
+    QString i2p_config = QCoreApplication::applicationDirPath() + QDir::separator() + "Config" + QDir::separator() + "i2p";
     QString mainClass = I2PMAINCLASS;
     compiledString += m_jrePath;
-    compiledString += javaExec + " -cp ." + classPath;
+    compiledString += javaExec;
+    // TODO: Allow alternative java JRE
+    compiledString += " -cp ." + classPath;
     compiledString += " -Di2p.dir.base="+m_i2pPath +
             " -Dorg.mortbay.util.FileResource.checkAliases=false -DloggerFilenameOverride="+
             QCoreApplication::applicationDirPath() + QDir::separator() +"log"+ QDir::separator() +"i2p-log-router-@.txt " +
-            "-Djava.library.path=."+ QDir::separator() + QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
+            "-Djava.library.path=."+ QDir::separator()+ QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
             "-Dorg.mortbay.http.Version.paranoid=true -Di2p.dir.config="+ i2p_config + " " + mainClass;
     qDebug() << "CMD so far: " << compiledString;
 
