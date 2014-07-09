@@ -41,7 +41,7 @@ void RepugnoApplication::LaunchBrowser()
 #endif
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
-    cpt->run();
+    cpt->start();
     delete temp;
 }
 
@@ -52,7 +52,7 @@ void RepugnoApplication::InitAll()
     qDebug() << "I2P Path is: " << i2pPath;
     I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
-    cpt->run();
+    cpt->start();
 
     // Message about 2min warmup
     if (longtermMemory->value("donotshowagainboxes/thewarmupinfo", 0).toInt() == 0)

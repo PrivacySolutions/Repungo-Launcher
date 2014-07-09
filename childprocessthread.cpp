@@ -12,8 +12,9 @@ void ChildProcessThread::run()
     // TODO
     QMutex mutex;
     mutex.lock();
-    currentProcess->Run();
     emit stateChanged(true);
+    currentProcess->Run();
+    emit stateChanged(false);
     mutex.unlock();
     // emit stateChanged(false);
 }
