@@ -9,7 +9,6 @@ QT       += core widgets network gui
 
 
 TARGET = repugno
-CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
