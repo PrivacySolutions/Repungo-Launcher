@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <stdio.h>
 
+
+
 I2PLauncher::I2PLauncher(QString jrePath, QString i2pPath)
 {
     // TODO: Add checks that the directories are correct & exists even they should
@@ -46,10 +48,25 @@ void I2PLauncher::Run()
 
     //TODO: Check if location is different from i2psnark.config and change in case it is.
 
+    /*
+BOOL WINAPI CreateProcess(
+  _In_opt_     LPCTSTR lpApplicationName,
+  _Inout_opt_  LPTSTR lpCommandLine,
+  _In_opt_     LPSECURITY_ATTRIBUTES lpProcessAttributes,
+  _In_opt_     LPSECURITY_ATTRIBUTES lpThreadAttributes,
+  _In_         BOOL bInheritHandles,
+  _In_         DWORD dwCreationFlags,
+  _In_opt_     LPVOID lpEnvironment,
+  _In_opt_     LPCTSTR lpCurrentDirectory,
+  _In_         LPSTARTUPINFO lpStartupInfo,
+  _Out_        LPPROCESS_INFORMATION lpProcessInformation
+);
+*/
 
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
-    p.startDetached(cmd);
+    // MARK: When not starting detached a console window on windows won't spawn.
+    p.start(cmd);
 #if QT_VERSION < 0x050300
     qint64 i2pPid = p.pid();
     //ProcessId first added in Qt 5.3
