@@ -30,7 +30,7 @@ void RepugnoTray::launchBrowser()
 void RepugnoTray::createActions()
 {
     launchBrowserAction = new QAction(tr("Open browser"), this);
-    connect(launchBrowserAction, SIGNAL(triggered(), this, SLOT(launchBrowser()));
+    connect(launchBrowserAction, SIGNAL(triggered()), this, SLOT(launchBrowser()));
     quitAction = new QAction(tr("Quit"), this);
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
