@@ -22,7 +22,11 @@ void RepugnoTray::exitApp()
 
 void RepugnoTray::launchBrowser()
 {
+#ifdef Q_OS_MAC
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+#else
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+#endif
     AppLauncher *al = new AppLauncher(temp);
     delete temp; //TODO Keep track of al and cleanup
 }
