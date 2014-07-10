@@ -68,6 +68,9 @@ void RepugnoApplication::InitAll()
     }
 
     // Give it 10sec to launch I2P
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please give me 10sec while the JRE loads I2P before I launch the router console for you!"));
+    msgBox.exec();
     QThread::sleep(10);
 
     // Browser
