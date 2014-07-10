@@ -66,7 +66,13 @@ BOOL WINAPI CreateProcess(
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
     // MARK: When not starting detached a console window on windows won't spawn.
-    p.start(cmd);
+#ifdef WIN32
+    //TODO: For fuck sake, find a better way to do it.
+    p.startDetached("nircmd.exe execmd CALL "+cmd);
+#else
+    p.startDetached(cmd);
+#endif
+    p.waitForFinished(-1);
 #if QT_VERSION < 0x050300
     qint64 i2pPid = p.pid();
     //ProcessId first added in Qt 5.3

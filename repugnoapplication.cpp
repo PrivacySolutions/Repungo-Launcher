@@ -5,6 +5,7 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // getenv
 #include <QProcess>
+#include <QThread>
 
 #include <QMessageBox>
 
@@ -20,14 +21,14 @@ QString RepugnoApplication::getBrowserParameters()
 #else
     QString parameters = "--args -no-remote -profile \""+
 #endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\"";
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\" -new-window http://127.0.0.1:7657 ";
 #else
 #ifdef DEBUG
     QString parameters = "-jsconsole -no-remote -profile \""+
 #else
     QString parameters = "--args -no-remote -profile \""+
 #endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\"";
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\" -new-window http://127.0.0.1:7657 ";
 #endif
     return parameters;
 }
@@ -41,7 +42,7 @@ void RepugnoApplication::LaunchBrowser()
 #endif
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
-    cpt->start();
+    cpt->run();
     delete temp;
 }
 
@@ -52,7 +53,7 @@ void RepugnoApplication::InitAll()
     qDebug() << "I2P Path is: " << i2pPath;
     I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
-    cpt->start();
+    cpt->run();
 
     // Message about 2min warmup
     if (longtermMemory->value("donotshowagainboxes/thewarmupinfo", 0).toInt() == 0)
@@ -65,6 +66,9 @@ void RepugnoApplication::InitAll()
                        "\nprobably the better speed you get too!\n\nEnjoy!"));
         msgBox.exec();
     }
+
+    // Give it 10sec to launch I2P
+    QThread::sleep(10);
 
     // Browser
     LaunchBrowser();
