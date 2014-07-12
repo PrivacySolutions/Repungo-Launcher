@@ -22,17 +22,34 @@ void RepugnoTray::exitApp()
     // For later
 }
 
+void RepugnoTray::trayLaunchMail()
+{}
+
+void RepugnoTray::trayLaunchSecureMail()
+{}
+
+void RepugnoTray::trayLaunchTorrents()
+{}
+
+void RepugnoTray::trayLaunchTorrentsPath()
+{}
+
 void RepugnoTray::trayLaunchBrowser()
 {
+    browserLaunch(RepugnoApplication::getBrowserParameters());
+}
+
+void RepugnoTray::browserLaunch(QString params)
+{
 #ifdef Q_OS_MAC
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+params);
 #else
 #ifdef WIN32
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+RepugnoApplication::getBrowserParameters());
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+params);
 #else
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+params);
 #endif
-    qDebug() << "Trying to launch: " << RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters();
+    qDebug() << "Trying to launch: " << RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+params;
 #endif
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);

@@ -21,6 +21,7 @@ private:
     void createMenu();
     void showMessage();
     void messageClicked();
+    void browserLaunch(QString params);
 
     QAction *aboutApplicationAction;
     QAction *restartBrowserAction;
@@ -31,6 +32,10 @@ private:
     QSystemTrayIcon *sysTray;
     QMenu *m_stMenu;
 public slots:
+    void trayLaunchTorrents();
+    void trayLaunchTorrentsPath();
+    void trayLaunchMail();
+    void trayLaunchSecureMail();
     void trayLaunchBrowser();
     void exitApp();
 };
