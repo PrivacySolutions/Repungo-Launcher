@@ -6,8 +6,6 @@
 
 QT       += core widgets gui
 
-
-
 TARGET = Repugno
 
 # Use the console config only for debugging. Disable it at release
