@@ -3,10 +3,12 @@
 #include "dummyobject.h"
 #include "childprocessthread.h"
 #include <QIcon>
+#include <QObject>
+#include <QDebug>
 #include <QAction>
 #include <Qdir>
 
-RepugnoTray::RepugnoTray() : DummyObject()
+RepugnoTray::RepugnoTray() : QObject()
 {
     sysTray = new QSystemTrayIcon(QIcon(":/images/res/default256.png"));
     sysTray->setToolTip("The Abscond/Repugno project.");
@@ -21,16 +23,21 @@ void RepugnoTray::exitApp()
     // For later
 }
 
-void RepugnoTray::launchBrowser()
+void RepugnoTray::trayLaunchBrowser()
 {
 #ifdef Q_OS_MAC
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #else
+#ifdef WIN32
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+RepugnoApplication::getBrowserParameters());
+#else
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #endif
+    qDebug() << "Trying to launch: " << RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters();
+#endif
     AppLauncher *al = new AppLauncher(temp);
-    al->Run();
-    delete temp; //TODO Keep track of al and cleanup
+    ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
+    cpt->start();
 }
 
 void RepugnoTray::createActions()

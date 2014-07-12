@@ -38,12 +38,16 @@ void RepugnoApplication::LaunchBrowser()
 #ifdef Q_OS_MAC
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
 #else
+#ifdef WIN32
+    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+RepugnoApplication::getBrowserParameters());
+#else
     QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters());
+#endif
+    qDebug() << "Trying to launch " << RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+RepugnoApplication::getBrowserParameters();
 #endif
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
-    cpt->run();
-    delete temp;
+    cpt->start();
 }
 
 void RepugnoApplication::InitAll()
@@ -53,7 +57,7 @@ void RepugnoApplication::InitAll()
     qDebug() << "I2P Path is: " << i2pPath;
     I2PLauncher *i2pLauncher = new I2PLauncher(jrePath, i2pPath);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
-    cpt->run();
+    cpt->start();
 
     // Message about 2min warmup
     if (longtermMemory->value("donotshowagainboxes/thewarmupinfo", 0).toInt() == 0)
@@ -113,9 +117,7 @@ void RepugnoApplication::locateAbscond()
         qDebug() << "Critical error! Can't find the browser!!";
         QCoreApplication::exit(1);
     }
-#ifdef Q_OS_MACX
-    QFile *browserFile = new QFile(browserDir->absolutePath()+QDir::separator()+"firefox");
-#elif WIN32 // Windows requires .exe as always.
+#ifdef WIN32
     QFile *browserFile = new QFile(browserDir->absolutePath()+QDir::separator()+"firefox.exe");
 #else
     QFile *browserFile = new QFile(browserDir->absolutePath()+QDir::separator()+"firefox");
@@ -159,6 +161,8 @@ void RepugnoApplication::locateJRE()
     }
     jreDir = javaHome->absolutePath();
     // OK, it passed. Time for last check. The java executable
+
+    // WIN32 NOTE: In this case exe is required since it's a file check.
 #ifdef WIN32
     QString javaExec = "bin\\java.exe";
 #else

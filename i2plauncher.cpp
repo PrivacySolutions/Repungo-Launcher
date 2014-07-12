@@ -4,9 +4,25 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QDebug>
+
+
+#ifdef WIN32
+
+#include <windows.h>
+#endif
+
 #include <stdio.h>
 
-
+#ifdef WIN32
+#include <string.h>
+LPWSTR ConvertToLPWSTR( const std::string& s )
+{
+  LPWSTR ws = new wchar_t[s.size()+1]; // +1 for zero at the end
+  copy( s.begin(), s.end(), ws );
+  ws[s.size()] = 0; // zero at the end
+  return ws;
+}
+#endif
 
 I2PLauncher::I2PLauncher(QString jrePath, QString i2pPath)
 {
@@ -45,33 +61,47 @@ void I2PLauncher::Run()
 
     p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
     p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
-
-    //TODO: Check if location is different from i2psnark.config and change in case it is.
-
-    /*
-BOOL WINAPI CreateProcess(
-  _In_opt_     LPCTSTR lpApplicationName,
-  _Inout_opt_  LPTSTR lpCommandLine,
-  _In_opt_     LPSECURITY_ATTRIBUTES lpProcessAttributes,
-  _In_opt_     LPSECURITY_ATTRIBUTES lpThreadAttributes,
-  _In_         BOOL bInheritHandles,
-  _In_         DWORD dwCreationFlags,
-  _In_opt_     LPVOID lpEnvironment,
-  _In_opt_     LPCTSTR lpCurrentDirectory,
-  _In_         LPSTARTUPINFO lpStartupInfo,
-  _Out_        LPPROCESS_INFORMATION lpProcessInformation
-);
-*/
-
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
     // MARK: When not starting detached a console window on windows won't spawn.
 #ifdef WIN32
-    //TODO: For fuck sake, find a better way to do it.
-    p.startDetached("nircmd.exe execmd CALL "+cmd);
-#else
-    p.startDetached(cmd);
+
+#if WINVER == 0x0602
+// Why?
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms686331(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/aa383745(v=vs.85).aspx#macros_for_conditional_declarations
+#include "Processthreadsapi.h"
 #endif
+
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
+    ZeroMemory( &pi, sizeof(pi) );
+
+    // Start the child process.
+    if( !CreateProcess( NULL,   // No module name (use command line)
+        ConvertToLPWSTR(cmd.toStdString()),        // Command line
+        NULL,           // Process handle not inheritable
+        NULL,           // Thread handle not inheritable
+        FALSE,          // Set handle inheritance to FALSE
+        CREATE_NO_WINDOW, // Don't show console to the end user.
+        NULL,           // Use parent's environment block
+        NULL,           // Use parent's starting directory
+        &si,            // Pointer to STARTUPINFO structure
+        &pi )           // Pointer to PROCESS_INFORMATION structure
+    )
+    {
+        //qDebug() <<  sprintf( "CreateProcess failed (%d).\n", GetLastError()) 
+        return;
+    }
+    WaitForSingleObject( pi.hProcess, INFINITE );
+
+    CloseHandle( pi.hProcess );
+    CloseHandle( pi.hThread );
+#else
+
+    p.startDetached(cmd);
     p.waitForFinished(-1);
 #if QT_VERSION < 0x050300
     qint64 i2pPid = p.pid();
@@ -80,6 +110,9 @@ BOOL WINAPI CreateProcess(
     qint64 i2pPid = p.processId();
 #endif
     qDebug() << "I2P should have started now. With process id: " << QString::number(i2pPid);
+
+#endif
+
 }
 
 QString I2PLauncher::GenerateLaunchCommand()
@@ -104,13 +137,10 @@ QString I2PLauncher::GenerateLaunchCommand()
     }
     qDebug() << "[+] Classpath looks like: " << classPath;
 
-    QString javaExec =
+    QString javaExec = QDir::separator() + QString("bin") + QDir::separator() + "java";
 #ifdef WIN32
-    "\\bin\\java.exe "
-#else
-    "/bin/java "
+    javaExec = javaExec + ".exe";
 #endif
-    ;
     QString i2p_config = QCoreApplication::applicationDirPath() + QDir::separator() + "Config" + QDir::separator() + "i2p";
     QString mainClass = I2PMAINCLASS;
     compiledString += m_jrePath;
@@ -124,10 +154,5 @@ QString I2PLauncher::GenerateLaunchCommand()
             "-Dorg.mortbay.http.Version.paranoid=true -Di2p.dir.config="+ i2p_config + " " + mainClass;
     qDebug() << "CMD so far: " << compiledString;
 
-    //I2PRunner::i2pCommand = compiledString;
-    /*if (Constants::i2pRunCommand == NULL)
-    {
-        Constants::i2pRunCommand = compiledString;
-    }*/
     return compiledString;
 }

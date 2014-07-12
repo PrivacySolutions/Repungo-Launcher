@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QSettings>
+#include "version.h"
 #include "repugnotray.h"
 #include "applauncher.h"
 #include "i2plauncher.h"

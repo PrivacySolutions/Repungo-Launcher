@@ -2,7 +2,6 @@
 #define DUMMYOBJECT_H
 
 #include <QObject>
-#include <QNetworkReply>
 
 
 class DummyObject : public QObject

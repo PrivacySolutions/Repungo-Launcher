@@ -1,7 +1,6 @@
 #include "dummyobject.h"
 #include <QDebug>
 #include <QCoreApplication>
-#include <QNetworkRequest>
 
 // This dummy object gives access to all native QT stuff on own custom classes. Really handy.
 

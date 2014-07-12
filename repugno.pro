@@ -4,15 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += core widgets network gui
+QT       += core widgets gui
 
 
 
-TARGET = repugno
+TARGET = Repugno
+
+# Use the console config only for debugging. Disable it at release
+
 CONFIG += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
+
+win32:RC_FILE = win32res.rc
 
 
 SOURCES += main.cpp repugnoapplication.cpp \

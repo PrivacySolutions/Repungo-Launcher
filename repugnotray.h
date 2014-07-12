@@ -1,6 +1,7 @@
 #ifndef REPUGNOTRAY_H
 #define REPUGNOTRAY_H
 
+#include <QObject>
 #include <QSystemTrayIcon>
 #include <QAction>
 #include <QMenu>
@@ -10,7 +11,7 @@
 // Note:
 // Adding a abstract layer towards QSystemTrayIcon now, because
 // I know with Qt that it could be handy for later.
-class RepugnoTray : DummyObject
+class RepugnoTray : public QObject
 {
 public:
     RepugnoTray();
@@ -28,8 +29,8 @@ private:
 
     QSystemTrayIcon *sysTray;
     QMenu *m_stMenu;
-private slots:
-    void launchBrowser();
+public slots:
+    void trayLaunchBrowser();
     void exitApp();
 };
 
