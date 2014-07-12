@@ -12,7 +12,7 @@ TARGET = Repugno
 
 # Use the console config only for debugging. Disable it at release
 
-CONFIG += console
+CONFIG -= console
 CONFIG   -= app_bundle
 
 TEMPLATE = app

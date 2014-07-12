@@ -13,6 +13,7 @@
 // I know with Qt that it could be handy for later.
 class RepugnoTray : public QObject
 {
+    Q_OBJECT
 public:
     RepugnoTray();
 private:

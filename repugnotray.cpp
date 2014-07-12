@@ -1,6 +1,5 @@
 #include "repugnotray.h"
 #include "repugnoapplication.h"
-#include "dummyobject.h"
 #include "childprocessthread.h"
 #include <QIcon>
 #include <QObject>
@@ -43,7 +42,7 @@ void RepugnoTray::trayLaunchBrowser()
 void RepugnoTray::createActions()
 {
     launchBrowserAction = new QAction(tr("Open browser"), this);
-    connect(launchBrowserAction, SIGNAL(triggered()), this, SLOT(launchBrowser()));
+    connect(launchBrowserAction, SIGNAL(triggered()), this, SLOT(trayLaunchBrowser()));
     quitAction = new QAction(tr("Quit"), this);
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
