@@ -31,12 +31,12 @@ private:
     void createTrayIcon();
     void configReset();
 
-    QString jrePath;
-    QString i2pPath;
-    QString abscondPath;
+    QString m_jrePath;
+    QString m_i2pPath;
+    QString m_abscondPath;
 
-    RepugnoTray *trayIcon;
-    QSettings *longtermMemory;
+    RepugnoTray *m_trayIcon;
+    QSettings *m_longtermMemory;
 
 public slots:
 

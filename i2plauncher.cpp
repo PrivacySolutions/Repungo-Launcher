@@ -133,7 +133,7 @@ QString I2PLauncher::GenerateLaunchCommand()
                 ":"
 #endif
                 // This should solve the whitespace problem.
-                +"\""+tmp+"\"";
+                +QString("\""+tmp+"\"");
         qDebug() << "[+] Added "<< tmp << " to classpath.";
     }
     qDebug() << "[+] Classpath looks like: " << classPath;

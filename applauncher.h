@@ -11,7 +11,7 @@ class AppLauncher : public ILauncher
 {
     Q_OBJECT
 public:
-    AppLauncher(QString *appCmdPath);
+    AppLauncher(QString appCmdPath);
     QString getAppName();
     static void processExError(QProcess::ProcessError err);
     void Run();

@@ -18,9 +18,9 @@ extern LPWSTR ConvertToLPWSTR( const std::string& s );
 #endif
 
 
-AppLauncher::AppLauncher(QString *appCmdPath)
+AppLauncher::AppLauncher(QString appCmdPath)
 {
-    cmdLine = *appCmdPath;
+    cmdLine = appCmdPath;
 }
 
 QString AppLauncher::getAppName()

@@ -42,12 +42,12 @@ void RepugnoTray::trayLaunchBrowser()
 void RepugnoTray::browserLaunch(QString params)
 {
 #ifdef Q_OS_MAC
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+params);
+    QString temp(RepugnoApplication::applicationDirPath()+QDir::separator()+"firefox "+params);
 #else
 #ifdef WIN32
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+params);
+    QString temp(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox.exe "+params);
 #else
-    QString *temp = new QString(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+params);
+    QString temp(RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+params);
 #endif
     qDebug() << "Trying to launch: " << RepugnoApplication::applicationDirPath()+QDir::separator()+"Browser"+QDir::separator()+"firefox "+params;
 #endif
