@@ -19,7 +19,7 @@ public:
 private:
     void processError(QProcess::ProcessError err);
 
-    QString *cmdLine;
+    QString cmdLine;
     QString appName;
     QProcess process;
 };

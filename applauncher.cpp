@@ -20,7 +20,7 @@ extern LPWSTR ConvertToLPWSTR( const std::string& s );
 
 AppLauncher::AppLauncher(QString *appCmdPath)
 {
-    cmdLine = appCmdPath;
+    cmdLine = *appCmdPath;
 }
 
 QString AppLauncher::getAppName()
@@ -35,9 +35,7 @@ void AppLauncher::Run()
                           this, SLOT(processError(QProcess::ProcessError)));
 */
     // Get executable's name
-    QFile *f = new QFile(*cmdLine);
-    appName = f->fileName();
-    delete f;
+    appName = QFile(cmdLine).fileName();
 
 
 #ifdef WIN32
@@ -58,7 +56,7 @@ void AppLauncher::Run()
 
     // Start the child process.
     if( !CreateProcess( NULL,   // No module name (use command line)
-        ConvertToLPWSTR(cmdLine->toStdString()),        // Command line
+        ConvertToLPWSTR(cmdLine.toStdString()),        // Command line
         NULL,           // Process handle not inheritable
         NULL,           // Thread handle not inheritable
         FALSE,          // Set handle inheritance to FALSE
@@ -78,9 +76,8 @@ void AppLauncher::Run()
 #else
 
     //pass the name of executable that's gonna launch.
-    process.start(*cmdLine);
+    process.start(cmdLine);
 #endif
-    delete cmdLine;
 }
 
 //get errors, if any
