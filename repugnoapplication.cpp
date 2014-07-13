@@ -67,9 +67,11 @@ void RepugnoApplication::InitAll()
     QMessageBox msgBox;
     msgBox.setText(tr("Please give me 10sec while the JRE loads I2P before I launch the router console for you!"));
     msgBox.exec();
-//    QThread::sleep(10);
+#ifdef WIN32
+    QThread::sleep(10);
+#else
     sleep(10);
-
+#endif
     // Browser
     LaunchBrowser();
 }
