@@ -49,9 +49,9 @@ void I2PLauncher::Run()
 
     // Environment overriding
     QStringList env = QProcess::systemEnvironment();
-    env << RepugnoApplication::applicationDirPath() +QDir::separator()+ "Temp";
+    env << QString("\"") + RepugnoApplication::applicationDirPath() +QDir::separator()+ "Temp\"";
     env << "_JAVA_OPTIONS=-Xmx"+QString(DEFAULT_MEMORY)+"M"; // This is required for a JRE to start.
-    env << "JAVA_HOME="+m_jrePath;
+    env << "JAVA_HOME=\""+m_jrePath+"\"";
     qDebug() << "JAVA_HOME="+m_jrePath;
     p.setEnvironment(env);
 
@@ -132,7 +132,8 @@ QString I2PLauncher::GenerateLaunchCommand()
 #else
                 ":"
 #endif
-                +tmp;
+                // This should solve the whitespace problem.
+                +"\""+tmp+"\"";
         qDebug() << "[+] Added "<< tmp << " to classpath.";
     }
     qDebug() << "[+] Classpath looks like: " << classPath;
@@ -141,13 +142,13 @@ QString I2PLauncher::GenerateLaunchCommand()
 #ifdef WIN32
     javaExec = javaExec + ".exe";
 #endif
-    QString i2p_config = QCoreApplication::applicationDirPath() + QDir::separator() + "Config" + QDir::separator() + "i2p";
+    QString i2p_config = QString("\"") + QCoreApplication::applicationDirPath() + QDir::separator() + "Config" + QDir::separator() + "i2p\"";
     QString mainClass = I2PMAINCLASS;
     compiledString += m_jrePath;
     compiledString += javaExec;
     // TODO: Allow alternative java JRE
     compiledString += " -cp ." + classPath;
-    compiledString += " -Di2p.dir.base="+m_i2pPath +
+    compiledString += " -Di2p.dir.base=\""+m_i2pPath+ "\"" +
             " -Dorg.mortbay.util.FileResource.checkAliases=false -DloggerFilenameOverride="+
             QCoreApplication::applicationDirPath() + QDir::separator() +"log"+ QDir::separator() +"i2p-log-router-@.txt " +
             "-Djava.library.path=."+ QDir::separator()+ QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
