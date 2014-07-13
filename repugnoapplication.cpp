@@ -206,7 +206,8 @@ QString RepugnoApplication::getI2PPath()
 
 QString RepugnoApplication::getBrowserPath()
 {
-    return m_abscondPath;
+    QFileInfo path(m_abscondPath);
+    return path.canonicalPath();
 }
 
 void RepugnoApplication::becomeSelfaware()
