@@ -32,7 +32,8 @@ HEADERS += repugnoapplication.h \
     dummyobject.h \
     applauncher.h \
     childprocessthread.h \
-    ilauncher.h
+    ilauncher.h \
+    netcheck.h
 
 RESOURCES += \
     resources.qrc
