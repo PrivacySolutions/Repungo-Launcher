@@ -16,7 +16,7 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 win32:RC_FILE = win32res.rc
-
+win32:LIBS = -lwsock32 -lws2_32
 
 SOURCES += main.cpp repugnoapplication.cpp \
     repugnotray.cpp \

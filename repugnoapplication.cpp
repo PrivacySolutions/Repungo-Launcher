@@ -7,9 +7,7 @@
 #include <QProcess>
 #include <QThread>
 
-#ifndef WIN32
 #include "netcheck.h"
-#endif
 
 #include <QMessageBox>
 
@@ -67,21 +65,14 @@ void RepugnoApplication::InitAll()
         msgBox.exec();
     }
 
-    // Give it 10sec to launch I2P
-    QMessageBox msgBox;
-    msgBox.setText(tr("Please give me 10sec while the JRE loads I2P before I launch the router console for you!"));
-    msgBox.exec();
-#ifdef WIN32
-    QThread::sleep(10);
-#else
+
     const char *ipaddr = "127.0.0.1";
-    in_port_t port = 7657;
-    assert (port>0 and port<0xffff);
-    while (!is_alive(ipaddr, port, 5 /* Testing 5sec for each round */))
+    int port = 7657;
+    while (!is_alive(ipaddr, port, 1 /* Testing 1sec for each round */))
     {
         // Waiting... :)
     }
-#endif
+
     // Browser
     LaunchBrowser();
 }
