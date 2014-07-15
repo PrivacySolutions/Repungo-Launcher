@@ -1,20 +1,28 @@
 #ifndef NETCHECK_H
 #define NETCHECK_H
 
-//TODO: Implement win32 support
 
+#ifndef _WIN32
 // BSD socket includes
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <arpa/inet.h>
+#  include <fcntl.h>
+#  include <sys/select.h>
+#else
+#  define WIN32_LEAN_AND_MEAN
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#  pragma comment(lib, "wsock32.lib")
+#endif
 
 // Timeout
 #include <fcntl.h>
-#include <sys/select.h>
 
 #include <assert.h>
 #include <errno.h>
+#include <stdio.h>
 //#include <string.h>     // strerror
 
 
@@ -30,8 +38,20 @@
  *        If timeout is smaller than one, the default TCP timeout is used.
  */
 
-bool is_alive (const char *ipaddr, uint16_t port, int timeout = -1)
+bool is_alive (const char *ipaddr, unsigned short port, int timeout = -1)
 {
+    // Fuck Windows :)
+#ifdef _WIN32
+    WSADATA wsaData;
+    int iResult;
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+    printf("WSAStartup failed: %d\n", iResult);
+    return false;
+    }
+#endif
+    assert (port>0 and port<0xffff);
+
     sockaddr_in soaddr;
     soaddr.sin_family = AF_INET;
     soaddr.sin_port = htons (port);
@@ -43,8 +63,13 @@ bool is_alive (const char *ipaddr, uint16_t port, int timeout = -1)
 
     if (timeout > 0)
     {
+#ifndef _WIN32
         int rv = fcntl (fd, F_SETFL, O_NONBLOCK);
         assert (rv == 0);
+#else
+    int rv = ioctlsocket (fd, FIONBIO, NULL);
+        assert (rv == 0);
+#endif
     }
 
     int rv = connect (fd, (sockaddr*) &soaddr, sizeof(soaddr));
@@ -68,8 +93,8 @@ bool is_alive (const char *ipaddr, uint16_t port, int timeout = -1)
                 if (rv == 0) return false;  // timeout reached
                 // Determine whether connect() completed successfully
                 int soerr;
-                unsigned int soerrlen = sizeof(soerr);
-                rv = getsockopt (fd, SOL_SOCKET, SO_ERROR, &soerr, &soerrlen);
+                socklen_t soerrlen = sizeof(soerr);
+                rv = getsockopt (fd, SOL_SOCKET, SO_ERROR, (char*)&soerr, &soerrlen);
                 assert (rv == 0);
                 if (soerr == 0)
                     return true;    // connected
