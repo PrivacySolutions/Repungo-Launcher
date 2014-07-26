@@ -82,7 +82,7 @@ void RepugnoApplication::InitAll()
     }
     if (error)
     {
-        tellAboutTheFuckup(QString("I2P isn't responding"),QString("I2P or Java doesn't respond. The timeout has reached. Something must be wrong!"));
+        tellAboutTheFuckup(QString("I2P isn't responding. Errno #0001"),QString("I2P or Java doesn't respond. The timeout has reached. Something must be wrong!"));
         QCoreApplication::exit(1);
     }
 
@@ -134,7 +134,7 @@ void RepugnoApplication::locateAbscond()
     {
         QString t = "Critical error! Can't find the browser!!";
         qDebug() << t;
-        tellAboutTheFuckup(QString("Critical error!"), t);
+        tellAboutTheFuckup(QString("Critical error! Errno #0002"), t);
         QCoreApplication::exit(1);
     }
 #ifdef WIN32
@@ -146,7 +146,7 @@ void RepugnoApplication::locateAbscond()
     {
         QString t = "Critical error! Can't find the browser!! found the folder but not the browser executable!";
         qDebug() << t;
-        tellAboutTheFuckup(QString("Critical error!"), t);
+        tellAboutTheFuckup(QString("Critical error! Errno #0003"), t);
         QCoreApplication::exit(1);
     }
     qDebug() << "Browser path found at " << browserDir.absolutePath();
@@ -174,7 +174,7 @@ void RepugnoApplication::locateJRE()
             // Java can't be found. We must exit hard.. Can't launch I2P....
             QString t = "Critical error! Can't find the JRE or environment variable JAVA_HOME!!!";
             qDebug() << t;
-            tellAboutTheFuckup(QString("Critical error!"), t);
+            tellAboutTheFuckup(QString("Critical error! Errno #0004"), t);
             QCoreApplication::exit(1);
         }
         // JAVA_HOME was set. Dircheck
@@ -189,7 +189,7 @@ void RepugnoApplication::locateJRE()
             {
                 QString t = "Critical error. Can't find the windir variable!";
                 qDebug() << t;
-                tellAboutTheFuckup(QString("Critical error!"), t);
+                tellAboutTheFuckup(QString("Critical error! Errno #0005"), t);
                 QCoreApplication::exit(1);
             }
             // OK, it passed. Time for last check. The java executable
@@ -218,7 +218,7 @@ void RepugnoApplication::locateJRE()
                 // JAVA_HOME is not correct, Can't run I2P.. Run and hide! No one can save you!
                 QString t = "Critical error!\n1. Can't find the bundled JRE\n2. The JAVA_HOME environment variable seems misconfigured!\n3. No system JRE was detected";
                 qDebug() << t;
-                tellAboutTheFuckup(QString("Critical error!"), t);
+                tellAboutTheFuckup(QString("Critical error! Errno #0006"), t);
                 QCoreApplication::exit(1);
             }
 #else
@@ -251,7 +251,7 @@ void RepugnoApplication::locateJRE()
         // The java binary is not correct, Can't run I2P.. Run and hide! No one can save you!
         QString t = "Critical error!\n1. Can't find the bundled JRE\n2. The JAVA_HOME environment variable seems misconfigured!\n3. No system JRE was detected";
         qDebug() << t;
-        tellAboutTheFuckup(QString("Critical error!"), t);
+        tellAboutTheFuckup(QString("Critical error! Errno #0007"), t);
         QCoreApplication::exit(1);
     }
     qDebug() << "Found the JRE!";
@@ -266,7 +266,7 @@ void RepugnoApplication::locateI2P()
     {
         QString t = "Critical error! Can't find I2P!!";
         qDebug() << t;
-        tellAboutTheFuckup(QString("Critical error!"), t);
+        tellAboutTheFuckup(QString("Critical error! Errno #0008"), t);
         QCoreApplication::exit(1);
     }
     qDebug() << "Found I2P path!";
