@@ -17,29 +17,6 @@ public:
 #define DEFAULT_MEMORY 128 // Maybe 128mb is too small wrt I2P-Bote, Seedless, I2PSnark etc?
 
 // TODO: Sandboxing, see QProcess::setupChildProcess() @ http://qt-project.org/doc/qt-5/qprocess.html
-/*
-class I2PRunner : public DummyObject
-{
-public:
-    I2PRunner() {
-    }
-
-    static QString i2pCommand;
-
-public slots:
-    void runI2P() {
-        QString result;
-        const QString cmd = I2PRunner::i2pCommand;
-        process.start(cmd);
-        emit resultReady(result);
-    }
-
-signals:
-    void resultReady(const QString &result);
-
-private:
-    QProcess process;
-};*/
 
 class I2PLauncher : public ILauncher
 {

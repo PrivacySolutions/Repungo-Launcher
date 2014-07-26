@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QSettings>
+#include <QString>
 #include "version.h"
 #include "repugnotray.h"
 #include "applauncher.h"
@@ -19,6 +20,7 @@ public:
     static QString getBrowserParameters();
     void LaunchBrowser();
     void InitAll();
+    void tellAboutTheFuckup(QString title, QString msg);
 
 signals:
 
@@ -30,6 +32,9 @@ private:
     void locateAbscond();
     void createTrayIcon();
     void configReset();
+
+    // I2P Monitoring
+    bool m_isI2PAlive;
 
     QString m_jrePath;
     QString m_i2pPath;
