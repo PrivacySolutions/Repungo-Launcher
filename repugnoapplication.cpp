@@ -95,7 +95,8 @@ void RepugnoApplication::tellAboutTheFuckup(QString title, QString msg)
     QMessageBox tmpBox;
     tmpBox.setIcon(QMessageBox::Critical);
     tmpBox.setWindowTitle(title);
-    tmpBox.setText(msg);
+    tmpBox.setText(msg+
+      QString("\n\nIf you feel need to ask for help to fix this, please use the #Abscond channel on either I2P or Freenode. A relay bot connect the networks together, so it won't have anything to say where you join."));
     tmpBox.exec();
 }
 
