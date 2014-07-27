@@ -164,19 +164,17 @@ void RepugnoApplication::locateJRE()
     // Should be in the same folder.
     QString jreDir;
     bool hasSystemJRE = false;
+    // The default bundle location
     QDir javaHome(QCoreApplication::applicationDirPath()+QDir::separator()+"I2P"+QDir::separator()+"jre");
+
     if (!javaHome.exists())
     {
         // OK... Not in the normal location. Let's check environment.
         char* jh = getenv("JAVA_HOME");
-        if (jh==NULL)
+       /* if (jh==NULL)
         {
-            // Java can't be found. We must exit hard.. Can't launch I2P....
-            QString t = "Critical error! Can't find the JRE or environment variable JAVA_HOME!!!";
-            qDebug() << t;
-            tellAboutTheFuckup(QString("Critical error! Errno #0004"), t);
-            QCoreApplication::exit(1);
-        }
+
+        }*/
         // JAVA_HOME was set. Dircheck
         QDir jh2(jh);
         if (!jh2.exists())
@@ -229,10 +227,13 @@ void RepugnoApplication::locateJRE()
         if (!hasSystemJRE)
             jreDir = jh;
     }
+    else
+    {
+        jreDir = javaHome.absolutePath();
+    }
 #ifndef WIN32
     QString javaExec = "java";
 #endif
-
 
     QString jExec = "";
     if (hasSystemJRE)
