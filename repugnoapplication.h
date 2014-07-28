@@ -21,8 +21,8 @@ public:
     void LaunchBrowser();
     void InitAll();
     void tellAboutTheFuckup(QString title, QString msg);
-
-signals:
+    bool getI2PStatus();
+    void setI2PStatus(bool status);
 
 private:
     void becomeSelfaware();
@@ -34,7 +34,8 @@ private:
     void configReset();
 
     // I2P Monitoring
-    bool m_isI2PAlive;
+    // TODO: Make thread safe
+    bool *m_isI2PAlive;
 
     QString m_jrePath;
     QString m_i2pPath;
@@ -42,8 +43,6 @@ private:
 
     RepugnoTray *m_trayIcon;
     QSettings *m_longtermMemory;
-
-public slots:
 
 };
 

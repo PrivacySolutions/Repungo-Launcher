@@ -24,7 +24,7 @@ LPWSTR ConvertToLPWSTR( const std::string& s )
 }
 #endif
 
-I2PLauncher::I2PLauncher(QString jrePath, QString i2pPath)
+I2PLauncher::I2PLauncher(bool *status, QString jrePath, QString i2pPath) : m_status(status)
 {
     // TODO: Add checks that the directories are correct & exists even they should
     // have been checked by earlier methods in the stack already.
@@ -95,13 +95,16 @@ void I2PLauncher::Run()
         //qDebug() <<  sprintf( "CreateProcess failed (%d).\n", GetLastError()) 
         return;
     }
+    // I2P Process started
+    *m_status = true;
     WaitForSingleObject( pi.hProcess, INFINITE );
+    *m_status = false;
 
     CloseHandle( pi.hProcess );
     CloseHandle( pi.hThread );
 #else
 
-    p.startDetached(cmd);
+    p.start(cmd);
     p.waitForFinished(-1);
 #if QT_VERSION < 0x050300
     qint64 i2pPid = p.pid();

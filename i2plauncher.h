@@ -12,6 +12,7 @@ public:
 
 #include "dummyobject.h"
 #include "ilauncher.h"
+#include "repugnoapplication.h"
 
 #define I2PMAINCLASS "net.i2p.router.RouterLaunch"
 #define DEFAULT_MEMORY 128 // Maybe 128mb is too small wrt I2P-Bote, Seedless, I2PSnark etc?
@@ -23,7 +24,7 @@ class I2PLauncher : public ILauncher
     Q_OBJECT
     //QThread workerThread;
 public:
-    I2PLauncher(QString jrePath, QString i2pPath);
+    I2PLauncher(bool *status, QString jrePath, QString i2pPath);
 //    I2PLauncher(QObject *parent = 0);
     /*~I2PLauncher();
     {
@@ -41,6 +42,8 @@ private:
     QString m_jreParam;
     QString m_i2pParam;
     //I2PRunner *runner;
+
+    bool *m_status;
 /*
 public slots:
     void handleResults(const QString &);
