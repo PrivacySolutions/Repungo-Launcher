@@ -14,31 +14,32 @@
 #include "i2plauncher.h"
 #include "childprocessthread.h"
 
-QString RepugnoApplication::getBrowserParameters()
+
+QString RepugnoApplication::getBrowserParameters(QString concat)
 {
     // Firefox startup
 #ifdef WIN32
 #ifdef DEBUG
-    QString parameters = "-jsconsole -no-remote -profile \""+
+    QString parameters = "-jsconsole -profile \""+
 #else
-    QString parameters = "--args -no-remote -profile \""+
+    QString parameters = "--args -profile \""+
 #endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\" -new-window http://127.0.0.1:7657 ";
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\" "+concat;
 #else
 #ifdef DEBUG
-    QString parameters = "-jsconsole -no-remote -profile \""+
+    QString parameters = "-jsconsole -profile \""+
 #else
-    QString parameters = "--args -no-remote -profile \""+
+    QString parameters = "--args -profile \""+
 #endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\" -new-window http://127.0.0.1:7657 ";
+            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\" "+concat;
 #endif
     return parameters;
 }
 
 void RepugnoApplication::LaunchBrowser()
 {
-    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters());
-    qDebug() << "Trying to launch " << m_abscondPath+RepugnoApplication::getBrowserParameters();
+    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657")));
+    qDebug() << "Trying to launch " << m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"));
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
     cpt->start();

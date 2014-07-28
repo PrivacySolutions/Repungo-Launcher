@@ -23,13 +23,20 @@ private:
     void messageClicked();
     void browserLaunch(QString params);
 
-    QAction *aboutApplicationAction;
-    QAction *restartBrowserAction;
-    QAction *launchBrowserAction;
-    QAction *restartI2PAction;
-    QAction *quitAction;
+    QAction *m_launchTorrents;
+    QAction *m_launchTorrentDirectory;
+    QAction *m_launchSecureMail;
+    QAction *m_launchMail;
 
-    QSystemTrayIcon *sysTray;
+    QAction *m_resetBrowserIdentity;
+
+    QAction *m_aboutApplicationAction;
+    QAction *m_restartBrowserAction;
+    QAction *m_launchBrowserAction;
+    QAction *m_restartI2PAction;
+    QAction *m_quitAction;
+
+    QSystemTrayIcon *m_sysTray;
     QMenu *m_stMenu;
 public slots:
     void trayLaunchTorrents();
@@ -38,6 +45,8 @@ public slots:
     void trayLaunchSecureMail();
     void trayLaunchBrowser();
     void exitApp();
+
+    void trayResetBrowserId();
 };
 
 #endif // REPUGNOTRAY_H

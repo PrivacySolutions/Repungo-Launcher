@@ -25,7 +25,8 @@ SOURCES += main.cpp repugnoapplication.cpp \
     applauncher.cpp \
     childprocessthread.cpp \
     ilauncher.cpp \
-    i2pmonitor.cpp
+    i2pmonitor.cpp \
+    resetidentity.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
@@ -35,7 +36,8 @@ HEADERS += repugnoapplication.h \
     childprocessthread.h \
     ilauncher.h \
     netcheck.h \
-    i2pmonitor.h
+    i2pmonitor.h \
+    resetidentity.h
 
 RESOURCES += \
     resources.qrc
