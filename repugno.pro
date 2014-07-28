@@ -24,7 +24,8 @@ SOURCES += main.cpp repugnoapplication.cpp \
     dummyobject.cpp \
     applauncher.cpp \
     childprocessthread.cpp \
-    ilauncher.cpp
+    ilauncher.cpp \
+    i2pmonitor.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
@@ -33,7 +34,8 @@ HEADERS += repugnoapplication.h \
     applauncher.h \
     childprocessthread.h \
     ilauncher.h \
-    netcheck.h
+    netcheck.h \
+    i2pmonitor.h
 
 RESOURCES += \
     resources.qrc

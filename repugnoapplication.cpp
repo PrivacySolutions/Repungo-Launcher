@@ -49,7 +49,7 @@ void RepugnoApplication::InitAll()
     // Start with I2P, it needs 2minutes.
     qDebug() << "JRE Path is: " << m_jrePath;
     qDebug() << "I2P Path is: " << m_i2pPath;
-    I2PLauncher *i2pLauncher = new I2PLauncher(m_isI2PAlive, m_jrePath, m_i2pPath);
+    I2PLauncher *i2pLauncher = new I2PLauncher(m_i2pMonitor, m_jrePath, m_i2pPath);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
     cpt->start();
 
@@ -328,19 +328,9 @@ void RepugnoApplication::becomeSelfaware()
 
 }
 
-bool RepugnoApplication::getI2PStatus()
-{
-    return m_isI2PAlive;
-}
-
-void RepugnoApplication::setI2PStatus(bool status)
-{
-    *m_isI2PAlive = status;
-}
-
 
 RepugnoApplication::RepugnoApplication(int & argc, char ** argv) :
-    QApplication(argc, argv), m_isI2PAlive(false)
+    QApplication(argc, argv)
 {
     becomeSelfaware();
     createTrayIcon();

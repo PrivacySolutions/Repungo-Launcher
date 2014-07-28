@@ -1,5 +1,6 @@
 #include "i2plauncher.h"
 #include "repugnoapplication.h"
+#include "i2pmonitor.h"
 #include <QDirIterator>
 #include <QDir>
 #include <QFileInfo>
@@ -24,7 +25,7 @@ LPWSTR ConvertToLPWSTR( const std::string& s )
 }
 #endif
 
-I2PLauncher::I2PLauncher(bool *status, QString jrePath, QString i2pPath) : m_status(status)
+I2PLauncher::I2PLauncher(I2PMonitor *m, QString jrePath, QString i2pPath) : m_monitorObject(m)
 {
     // TODO: Add checks that the directories are correct & exists even they should
     // have been checked by earlier methods in the stack already.
@@ -96,9 +97,9 @@ void I2PLauncher::Run()
         return;
     }
     // I2P Process started
-    *m_status = true;
+    m_monitorObject->setI2PStatus(true);
     WaitForSingleObject( pi.hProcess, INFINITE );
-    *m_status = false;
+    m_monitorObject->setI2PStatus(false);
 
     CloseHandle( pi.hProcess );
     CloseHandle( pi.hThread );

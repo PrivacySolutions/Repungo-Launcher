@@ -8,6 +8,7 @@
 #include "repugnotray.h"
 #include "applauncher.h"
 #include "i2plauncher.h"
+#include "i2pmonitor.h"
 
 class RepugnoApplication : public QApplication
 {
@@ -21,8 +22,7 @@ public:
     void LaunchBrowser();
     void InitAll();
     void tellAboutTheFuckup(QString title, QString msg);
-    bool getI2PStatus();
-    void setI2PStatus(bool status);
+
 
 private:
     void becomeSelfaware();
@@ -33,16 +33,13 @@ private:
     void createTrayIcon();
     void configReset();
 
-    // I2P Monitoring
-    // TODO: Make thread safe
-    bool *m_isI2PAlive;
-
     QString m_jrePath;
     QString m_i2pPath;
     QString m_abscondPath;
 
     RepugnoTray *m_trayIcon;
     QSettings *m_longtermMemory;
+    I2PMonitor *m_i2pMonitor;
 
 };
 
