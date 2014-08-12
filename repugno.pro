@@ -37,7 +37,8 @@ HEADERS += repugnoapplication.h \
     ilauncher.h \
     netcheck.h \
     i2pmonitor.h \
-    resetidentity.h
+    resetidentity.h \
+    versioninfo.h
 
 RESOURCES += \
     resources.qrc

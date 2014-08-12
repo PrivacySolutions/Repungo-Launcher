@@ -18,7 +18,7 @@ public:
     QString getJREPath();
     QString getI2PPath();
     QString getBrowserPath();
-    static QString getBrowserParameters(QString concat);
+    static QString getBrowserParameters(QString concat, bool init = false);
     void LaunchBrowser();
     void InitAll();
     void tellAboutTheFuckup(QString title, QString msg);

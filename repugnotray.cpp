@@ -11,7 +11,7 @@
 RepugnoTray::RepugnoTray() : QObject()
 {
     m_sysTray = new QSystemTrayIcon(QIcon(":/images/res/default256.png"));
-    m_sysTray->setToolTip("The Abscond/Repugno project.");
+    m_sysTray->setToolTip("The Abscond browser bundle project (Repugno Launcher)");
     createActions();
     createMenu();
     m_sysTray->setContextMenu(m_stMenu);
@@ -25,17 +25,17 @@ void RepugnoTray::exitApp()
 
 void RepugnoTray::trayLaunchMail()
 {
-    browserLaunch(RepugnoApplication::getBrowserParameters("-new-tab http://127.0.0.1:7657/susimail/susimail"));
+    browserLaunch(RepugnoApplication::getBrowserParameters(" -new-tab http://127.0.0.1:7657/susimail/susimail"));
 }
 
 void RepugnoTray::trayLaunchSecureMail()
 {
-    browserLaunch(RepugnoApplication::getBrowserParameters("-new-tab http://127.0.0.1:7657/i2pbote/index.jsp"));
+    browserLaunch(RepugnoApplication::getBrowserParameters(" -new-tab http://127.0.0.1:7657/i2pbote/index.jsp"));
 }
 
 void RepugnoTray::trayLaunchTorrents()
 {
-    browserLaunch(RepugnoApplication::getBrowserParameters("-new-tab http://127.0.0.1:7657/i2psnark/"));
+    browserLaunch(RepugnoApplication::getBrowserParameters(" -new-tab http://127.0.0.1:7657/i2psnark/"));
 }
 
 void RepugnoTray::trayLaunchTorrentsPath()
@@ -51,7 +51,7 @@ void RepugnoTray::trayResetBrowserId()
 
 void RepugnoTray::trayLaunchBrowser()
 {
-    browserLaunch(RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657")));
+    browserLaunch(RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"), true));
 }
 
 void RepugnoTray::browserLaunch(QString params)

@@ -7,6 +7,8 @@
 #include <QProcess>
 #include <QThread>
 
+#include "versioninfo.h"
+
 #include "netcheck.h"
 
 #include <QMessageBox>
@@ -15,30 +17,34 @@
 #include "childprocessthread.h"
 
 
-QString RepugnoApplication::getBrowserParameters(QString concat)
+QString RepugnoApplication::getBrowserParameters(QString concat, bool init)
 {
     // Firefox startup
+#ifdef DEBUG
+    QString parameters = "-jsconsole ";
+#else
+    QString parameters = "--args ";
+#endif
+    if (init)
+    {
 #ifdef WIN32
-#ifdef DEBUG
-    QString parameters = "-jsconsole -profile \""+
+        parameters += QString("-profile \"") + RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\" ";
 #else
-    QString parameters = "--args -profile \""+
+        parameters += QString("-profile \"") + RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\" ";
 #endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config\\Browser\\profile.default\" "+concat;
-#else
-#ifdef DEBUG
-    QString parameters = "-jsconsole -profile \""+
-#else
-    QString parameters = "--args -profile \""+
-#endif
-            RepugnoApplication::applicationDirPath()+QDir::separator()+"Config/Browser/profile.default\" "+concat;
-#endif
+        parameters += "  -no-remote "+concat;
+    }
+    else
+    {
+        parameters += " -new-tab "+concat;
+    }
+
     return parameters;
 }
 
 void RepugnoApplication::LaunchBrowser()
 {
-    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657")));
+    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"), true));
     qDebug() << "Trying to launch " << m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"));
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
@@ -304,16 +310,14 @@ QString RepugnoApplication::getBrowserPath()
 
 void RepugnoApplication::becomeSelfaware()
 {
-    // TODO: Move somewhere else
-    const char* version = "0.1";
-
-    qDebug() << "Becomming selfaware.";
+    qDebug() << "Starting up Repungo launcher!";
+    qDebug() << "Starting with becomming selfaware.";
     // Setting application information
-    setApplicationName("Repungo Launcher");
-    //setApplicationDisplayName("The Abscond bundle");
+    setApplicationName("Repungo Launcher (Abscond application)");
+    //setApplicationDisplayName("The Abscond browser bundle");
     setApplicationVersion(version);
-    setOrganizationDomain("sigterm.no");
-    setOrganizationName("Sigterm");
+    setOrganizationDomain("privacysolutions.no");
+    setOrganizationName("The Privacy solutions project");
     setQuitOnLastWindowClosed(false);
 #ifndef WIN32
     setenv("REPUGNO_LAUNCHER", version, 1);
