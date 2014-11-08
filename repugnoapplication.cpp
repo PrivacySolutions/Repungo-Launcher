@@ -44,8 +44,8 @@ QString RepugnoApplication::getBrowserParameters(QString concat, bool init)
 
 void RepugnoApplication::LaunchBrowser()
 {
-    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"), true));
-    qDebug() << "Trying to launch " << m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7657"));
+    QString temp(m_abscondPath+RepugnoApplication::getBrowserParameters(QString("-new-window http://127.0.0.1:7070"), true));
+    qDebug() << "Trying to launch " << temp;
     AppLauncher *al = new AppLauncher(temp);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
     cpt->start();
