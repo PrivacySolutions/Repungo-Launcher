@@ -60,11 +60,11 @@ void I2PLauncher::Run()
 #endif
 
     // TODO: Add optional?
-    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"Logs");
-    if (!logDir->exists()) logDir->mkdir(logDir->absolutePath());
+//    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"Logs");
+//    if (!logDir->exists()) logDir->mkdir(logDir->absolutePath());
 
-    p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
-    p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
+//    p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
+//    p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
     // MARK: When not starting detached a console window on windows won't spawn.
@@ -94,9 +94,13 @@ void I2PLauncher::Run()
         NULL,           // Use parent's starting directory
         &si,            // Pointer to STARTUPINFO structure
         &pi )           // Pointer to PROCESS_INFORMATION structure
+
     )
     {
         //qDebug() <<  sprintf( "CreateProcess failed (%d).\n", GetLastError()) 
+        // Adding fallback for i2pd start
+        qDebug() << "Could not start I2P, trying failover solution";
+        QProcess::execute(cmd);
         return;
     }
     // I2P Process started

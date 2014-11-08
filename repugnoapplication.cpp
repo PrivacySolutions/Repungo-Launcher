@@ -73,7 +73,7 @@ void RepugnoApplication::InitAll()
 
 
     const char *ipaddr = "127.0.0.1";
-    int port = 7657;
+    int port = 7070;
     int maxTries = 30;
     int tries;
     bool error = false;
@@ -82,6 +82,7 @@ void RepugnoApplication::InitAll()
         // Waiting... :)
         if (tries==maxTries)
         {
+            qDebug() << "Trying to connect to i2pd...";
             error = true;
         }
         tries++;
