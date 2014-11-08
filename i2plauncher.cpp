@@ -41,6 +41,9 @@ void I2PLauncher::Run()
      *  - Log to File
      *  - Update filestructure (I2P/JRE and I2P/I2PApp is gone)
      *       New i2pd binary located at i2pd/i2pd[.exe]
+     *  - I2PMonitor
+     *  - Create graphical and more informational launcher
+     *  - Something else...
     /*
     runner->moveToThread(&workerThread);
 
@@ -56,6 +59,7 @@ void I2PLauncher::Run()
     QString cmd = m_i2pPath + "/i2pd";
 #ifdef WIN32
     cmd = cmd + ".exe";
+    // Quick fix for Windows, turning slashes.
     m_i2pPath = QString(m_i2pPath.replace("/","\\\\"));
 #endif
 
@@ -65,6 +69,7 @@ void I2PLauncher::Run()
 
 //    p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
 //    p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
+
     // Running
     qDebug() << "CMD for I2P is: " << cmd;
     // MARK: When not starting detached a console window on windows won't spawn.
@@ -98,9 +103,11 @@ void I2PLauncher::Run()
     )
     {
         //qDebug() <<  sprintf( "CreateProcess failed (%d).\n", GetLastError()) 
+
         // Adding fallback for i2pd start
         qDebug() << "Could not start I2P, trying failover solution";
         QProcess::execute(cmd);
+
         return;
     }
     // I2P Process started
@@ -125,46 +132,3 @@ void I2PLauncher::Run()
 #endif
 
 }
-
-//QString I2PLauncher::GenerateLaunchCommand()
-//{
-//    // Collect I2P jar files
-//    QString classPath = "";
-//    QString compiledString = "";
-//    QDirIterator it(m_i2pPath+QDir::separator()+"lib", QDirIterator::NoIteratorFlags);
-//    while (it.hasNext())
-//    {
-//        QString tmp = it.next();
-//        QFileInfo *fTest = new QFileInfo(tmp);
-//        if ( fTest->isDir() ) continue; // Only allow jars for now
-//        classPath +=
-//#ifdef WIN32
-//                ";"
-//#else
-//                ":"
-//#endif
-//                // This should solve the whitespace problem.
-//                +QString("\""+tmp+"\"");
-//        qDebug() << "[+] Added "<< tmp << " to classpath.";
-//    }
-//    qDebug() << "[+] Classpath looks like: " << classPath;
-
-//    QString javaExec = QDir::separator() + QString("bin") + QDir::separator() + "java";
-//#ifdef WIN32
-//    javaExec = javaExec + ".exe";
-//#endif
-//    QString i2p_config = QString("\"") + QCoreApplication::applicationDirPath() + QDir::separator() + "Config" + QDir::separator() + "i2p\"";
-//    QString mainClass = I2PMAINCLASS;
-//    compiledString += m_jrePath;
-//    compiledString += javaExec;
-//    // TODO: Allow alternative java JRE
-//    compiledString += " -cp ." + classPath;
-//    compiledString += " -Di2p.dir.base=\""+m_i2pPath+ "\"" +
-//            " -Dorg.mortbay.util.FileResource.checkAliases=false -DloggerFilenameOverride="+
-//            QCoreApplication::applicationDirPath() + QDir::separator() +"log"+ QDir::separator() +"i2p-log-router-@.txt " +
-//            "-Djava.library.path=."+ QDir::separator()+ QCoreApplication::applicationDirPath() + QDir::separator() +"lib "+
-//            "-Dorg.mortbay.http.Version.paranoid=true -Di2p.dir.config="+ i2p_config + " " + mainClass;
-//    qDebug() << "CMD so far: " << compiledString;
-
-//    return compiledString;
-//}

@@ -32,7 +32,6 @@ public:
         workerThread.quit();
         workerThread.wait();
     }*/
-    //QString GenerateLaunchCommand();
     void Run();
 
     //const static QString cmd;

@@ -71,7 +71,7 @@ void RepugnoApplication::InitAll()
         msgBox.exec();
     }
 
-
+    // Verifying tha i2pd is runnig
     const char *ipaddr = "127.0.0.1";
     int port = 7070;
     int maxTries = 30;
@@ -103,7 +103,7 @@ void RepugnoApplication::tellAboutTheFuckup(QString title, QString msg)
     tmpBox.setIcon(QMessageBox::Critical);
     tmpBox.setWindowTitle(title);
     tmpBox.setText(msg+
-      QString("\n\nIf you feel need to ask for help to fix this, please use the #Abscond channel on either I2P or Freenode. A relay bot connect the networks together, so it won't have anything to say where you join."));
+      QString("\n\nIf you feel need to ask for help to fix this, please use the #Abscond channel on either I2P, Freenode or Greyhat. A relay bot connect the networks together, so it won't have anything to say where you join."));
     tmpBox.exec();
 }
 
@@ -162,111 +162,6 @@ void RepugnoApplication::locateAbscond()
     m_abscondPath = fi.absoluteFilePath()+QString(" ");
 }
 
-//void RepugnoApplication::locateJRE()
-//{
-//#ifdef WIN32
-//    // WIN32 NOTE: In this case exe is required since it's a file check.
-//    QString javaExec = "java.exe";
-//#endif
-//    // Should be in the same folder.
-//    QString jreDir;
-//    bool hasSystemJRE = false;
-//    // The default bundle location
-//    QDir javaHome(QCoreApplication::applicationDirPath()+QDir::separator()+"I2P"+QDir::separator()+"jre");
-
-//    if (!javaHome.exists())
-//    {
-//        // OK... Not in the normal location. Let's check environment.
-//        char* jh = getenv("JAVA_HOME");
-//       /* if (jh==NULL)
-//        {
-
-//        }*/
-//        // JAVA_HOME was set. Dircheck
-//        QDir jh2(jh);
-//        if (!jh2.exists())
-//        {
-//#ifdef WIN32
-//            // WIN32 NOTE: In this case exe is required since it's a file check.
-//            QString javaExec = "java.exe";
-//            char* windir = getenv("WINDIR");
-//            if (windir==NULL)
-//            {
-//                QString t = "Critical error. Can't find the windir variable!";
-//                qDebug() << t;
-//                tellAboutTheFuckup(QString("Critical error! Errno #0005"), t);
-//                QCoreApplication::exit(1);
-//            }
-//            // OK, it passed. Time for last check. The java executable
-
-//            // Checking both windir and system32
-//            if (    !QFile(QString(windir)+QDir::separator()+javaExec).exists() &&
-//                    !QFile(QString(windir)+QDir::separator()+QString("System32")+QDir::separator()+javaExec).exists() )
-//            {
-//                // Found system java. Seems like it's hope anyway!
-//                if (!QFile(QString(windir)+QDir::separator()+javaExec).exists())
-//                {
-//                    // It was not in windir. System32 it is.
-//                    jreDir = QDir(QString(windir)).absolutePath();
-//                    hasSystemJRE = true;
-//                }
-//                else
-//                {
-//                    // windir it is!
-//                    jreDir = QDir(QString(windir)+QDir::separator()+QString("System32")).absolutePath();
-//                    hasSystemJRE = true;
-//                }
-//            }
-//            else
-//            {
-
-//                // JAVA_HOME is not correct, Can't run I2P.. Run and hide! No one can save you!
-//                QString t = "Critical error!\n1. Can't find the bundled JRE\n2. The JAVA_HOME environment variable seems misconfigured!\n3. No system JRE was detected";
-//                qDebug() << t;
-//                tellAboutTheFuckup(QString("Critical error! Errno #0006"), t);
-//                QCoreApplication::exit(1);
-//            }
-//#else
-//    // TODO: Better system jvm detection on unix platforms.
-//    QString javaExec = "java";
-//#endif
-//        }
-//        if (!hasSystemJRE)
-//            jreDir = jh;
-//    }
-//    else
-//    {
-//        jreDir = javaHome.absolutePath();
-//    }
-//#ifndef WIN32
-//    QString javaExec = "java";
-//#endif
-
-//    QString jExec = "";
-//    if (hasSystemJRE)
-//    {
-//        //
-//        jExec = QString(jreDir + QDir::separator() + javaExec);
-//    }
-//    else
-//    {
-//        //
-//        jExec = QString(jreDir + QDir::separator() + QString("bin") + QDir::separator() + javaExec);
-//    }
-//    QFile javaExecFile(jExec);
-//    if (!javaExecFile.exists())
-//    {
-//        // The java binary is not correct, Can't run I2P.. Run and hide! No one can save you!
-//        QString t = "Critical error!\n1. Can't find the bundled JRE\n2. The JAVA_HOME environment variable seems misconfigured!\n3. No system JRE was detected";
-//        qDebug() << t;
-//        tellAboutTheFuckup(QString("Critical error! Errno #0007"), t);
-//        QCoreApplication::exit(1);
-//    }
-//    qDebug() << "Found the JRE!";
-//    // Setting the JRE path
-//    m_jrePath = jreDir;
-//}
-
 void RepugnoApplication::locateI2P()
 {
     QDir i2pDir(QCoreApplication::applicationDirPath()+"/i2pd");
@@ -292,10 +187,6 @@ void RepugnoApplication::createTrayIcon()
     m_trayIcon = new RepugnoTray();
 }
 
-QString RepugnoApplication::getJREPath()
-{
-    return m_jrePath;
-}
 
 QString RepugnoApplication::getI2PPath()
 {

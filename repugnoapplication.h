@@ -15,7 +15,6 @@ class RepugnoApplication : public QApplication
     Q_OBJECT
 public:
     explicit RepugnoApplication(int & argc, char ** argv);
-    QString getJREPath();
     QString getI2PPath();
     QString getBrowserPath();
     static QString getBrowserParameters(QString concat, bool init = false);
@@ -28,12 +27,10 @@ private:
     void becomeSelfaware();
     void rememberLastNight();
     void locateI2P();
-    void locateJRE();
     void locateAbscond();
     void createTrayIcon();
     void configReset();
 
-    QString m_jrePath;
     QString m_i2pPath;
     QString m_abscondPath;
 
