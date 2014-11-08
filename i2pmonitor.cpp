@@ -5,7 +5,7 @@ I2PMonitor::I2PMonitor(QObject *parent) :
 {
 }
 /*
- * Psudo java code
+ * Old java pseudo code, to be removed
 I2PMonitor::I2PMonitor *instance()
 {
     if (self == NULL)

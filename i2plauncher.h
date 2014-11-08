@@ -25,7 +25,7 @@ class I2PLauncher : public ILauncher
     Q_OBJECT
     //QThread workerThread;
 public:
-    I2PLauncher(I2PMonitor *m, QString jrePath, QString i2pPath);
+    I2PLauncher(I2PMonitor *m, QString i2pPath);
 //    I2PLauncher(QObject *parent = 0);
     /*~I2PLauncher();
     {
