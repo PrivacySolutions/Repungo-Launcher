@@ -32,15 +32,13 @@ public:
         workerThread.quit();
         workerThread.wait();
     }*/
-    QString GenerateLaunchCommand();
+    //QString GenerateLaunchCommand();
     void Run();
 
     //const static QString cmd;
 
 private:
     QString m_i2pPath;
-    QString m_jrePath;
-    QString m_jreParam;
     QString m_i2pParam;
     //I2PRunner *runner;
     I2PMonitor *m_monitorObject;

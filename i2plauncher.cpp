@@ -36,6 +36,12 @@ I2PLauncher::I2PLauncher(I2PMonitor *m, QString i2pPath) : m_monitorObject(m)
 void I2PLauncher::Run()
 {
     /*
+     * TODO
+     *  - Get i2pd output and errors
+     *  - Log to File
+     *  - Update filestructure (I2P/JRE and I2P/I2PApp is gone)
+     *       New i2pd binary located at i2pd/i2pd[.exe]
+    /*
     runner->moveToThread(&workerThread);
 
     // Setting connections between threads
