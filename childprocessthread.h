@@ -2,7 +2,7 @@
 #define CHILDPROCESSTHREAD_H
 
 #include <QThread>
-#include "ilauncher.h"
+#include "utils.h"
 
 class ChildProcessThread : public QThread
 {

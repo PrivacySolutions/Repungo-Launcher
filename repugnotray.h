@@ -6,7 +6,6 @@
 #include <QAction>
 #include <QMenu>
 
-#include "dummyobject.h"
 
 // Note:
 // Adding a abstract layer towards QSystemTrayIcon now, because

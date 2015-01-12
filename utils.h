@@ -1,9 +1,19 @@
-#ifndef ILAUNCHER_H
-#define ILAUNCHER_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <QObject>
 
-#include "dummyobject.h"
+class DummyObject : public QObject
+{
+    Q_OBJECT
+
+  public:
+    DummyObject (QObject *parent = 0);
+    ~DummyObject();
+
+  private:
+
+};
 
 /*
 The idea:
@@ -18,4 +28,6 @@ public:
     virtual void Run()= 0;
 };
 
-#endif // ILAUNCHER_H
+bool is_alive (const char *ipaddr, unsigned short port, int timeout);
+
+#endif // UTILS_H

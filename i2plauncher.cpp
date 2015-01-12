@@ -1,6 +1,5 @@
 #include "i2plauncher.h"
 #include "repugnoapplication.h"
-#include "i2pmonitor.h"
 #include <QDirIterator>
 #include <QDir>
 #include <QFileInfo>
@@ -25,37 +24,13 @@ LPWSTR ConvertToLPWSTR( const std::string& s )
 }
 #endif
 
-I2PLauncher::I2PLauncher(I2PMonitor *m, QString i2pPath) : m_monitorObject(m)
+I2PLauncher::I2PLauncher(QString i2pPath) : m_i2pPath(i2pPath)
 {
-    // TODO: Add checks that the directories are correct & exists even they should
-    // have been checked by earlier methods in the stack already.
-    m_i2pPath = i2pPath;
-    //runner = new I2PRunner();
 }
 
 void I2PLauncher::Run()
 {
-    /*
-     * TODO
-     *  - Get i2pd output and errors
-     *  - Log to File
-     *  - Update filestructure (I2P/JRE and I2P/I2PApp is gone)
-     *       New i2pd binary located at i2pd/i2pd[.exe]
-     *  - I2PMonitor
-     *  - Create graphical and more informational launcher
-     *  - Something else...
-    /*
-    runner->moveToThread(&workerThread);
-
-    // Setting connections between threads
-    connect(&workerThread, &QThread::finished, runner, &QObject::deleteLater);
-    connect(this, &I2PLauncher::operate, runner, &I2PRunner::runI2P);
-    connect(runner, &I2PRunner::resultReady, this, &I2PLauncher::handleResults);
-
-    workerThread.start();*/
     QProcess p;
-    //QString cmd = I2PLauncher::GenerateLaunchCommand();
-
     QString cmd = m_i2pPath + "/i2p";
 #ifdef WIN32
     cmd = cmd + ".exe";
@@ -63,18 +38,14 @@ void I2PLauncher::Run()
     m_i2pPath = QString(m_i2pPath.replace("/","\\\\"));
 #endif
 
-    // TODO: Add optional?
-//    QDir *logDir = new QDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"Logs");
-//    if (!logDir->exists()) logDir->mkdir(logDir->absolutePath());
+    QDir logDir(RepugnoApplication::applicationDirPath() +QDir::separator()+"Logs");
+    if (!logDir.exists()) logDir.mkdir(logDir.absolutePath());
 
-//    p.setStandardErrorFile(logDir->absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
-//    p.setStandardOutputFile(logDir->absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
+    // Logging
+    p.setStandardErrorFile(logDir.absolutePath()+QDir::separator()+"i2p.stderr.log",QIODevice::Append);
+    p.setStandardOutputFile(logDir.absolutePath()+QDir::separator()+"i2p.stdout.log",QIODevice::Append);
 
-    // Running
-    qDebug() << "CMD for I2P is: " << cmd;
-    // MARK: When not starting detached a console window on windows won't spawn.
 #ifdef WIN32
-
 #if WINVER == 0x0602
 // Why?
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms686331(v=vs.85).aspx
@@ -111,9 +82,7 @@ void I2PLauncher::Run()
         return;
     }
     // I2P Process started
-    m_monitorObject->setI2PStatus(true);
     WaitForSingleObject( pi.hProcess, INFINITE );
-    m_monitorObject->setI2PStatus(false);
 
     CloseHandle( pi.hProcess );
     CloseHandle( pi.hThread );

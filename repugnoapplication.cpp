@@ -9,7 +9,7 @@
 
 #include "versioninfo.h"
 
-#include "netcheck.h"
+#include "utils.h"
 
 #include <QMessageBox>
 
@@ -69,7 +69,7 @@ void RepugnoApplication::rememberLastNight()
     QString settingsFile = RepugnoApplication::applicationDirPath()+QDir::separator()+"Config"+QDir::separator()+"RepugnoAppSettings.conf";
     QFile tmp(settingsFile);
     qDebug() << "Settings file: %s", qPrintable(settingsFile);
-    m_longtermMemory = new QSettings(settingsFile, QSettings::IniFormat); // Use ini format because of support for multiple OS
+    QSettings m_longtermMemory(settingsFile, QSettings::IniFormat); // Use ini format because of support for multiple OS
     if (!tmp.exists())
     {
         qDebug() << "Settings file not found. Creating one!";
@@ -85,7 +85,7 @@ void RepugnoApplication::rememberLastNight()
 
     // Start with I2P, it needs 2minutes.
     qDebug() << "I2P Path is: " << m_i2pPath;
-    I2PLauncher *i2pLauncher = new I2PLauncher(m_i2pMonitor, m_i2pPath);
+    I2PLauncher *i2pLauncher = new I2PLauncher(m_i2pPath);
     ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
     cpt->start();
 
@@ -174,7 +174,7 @@ void RepugnoApplication::configReset()
 
 void RepugnoApplication::createTrayIcon()
 {
-    m_trayIcon = new RepugnoTray();
+    RepugnoTray m_trayIcon();
 }
 
 
@@ -204,14 +204,6 @@ void RepugnoApplication::becomeSelfaware()
     setQuitOnLastWindowClosed(false);
 #ifndef WIN32
     setenv("REPUGNO_LAUNCHER", version, 1);
-#else
-    /* WTF too much code. Find a better way than SetEnvironmentVariable from kernel32
-    #include <windows.h>
-    HMODULE kDLL = LoadLibraryA("kernel32.dll");
-    if (!kDLL)
-    {
-        qDebug << "Failed to load library kernel32";
-    }*/
 #endif
 
 }

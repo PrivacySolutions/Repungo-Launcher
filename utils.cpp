@@ -1,7 +1,3 @@
-#ifndef NETCHECK_H
-#define NETCHECK_H
-
-
 #ifndef _WIN32
 // BSD socket includes
 #  include <sys/types.h>
@@ -17,6 +13,8 @@
 #  pragma comment(lib, "wsock32.lib")
 #endif
 
+#include "utils.h"
+
 // Timeout
 #include <fcntl.h>
 
@@ -25,6 +23,9 @@
 #include <stdio.h>
 //#include <string.h>     // strerror
 
+
+#include <QDebug>
+#include <QCoreApplication>
 
 
 /**
@@ -117,4 +118,16 @@ error_exit:
 }
 
 
-#endif // NETCHECK_H
+// This dummy object gives access to all native QT stuff on own custom classes. Really handy.
+
+DummyObject::DummyObject (QObject *parent) :
+    QObject (parent)
+{
+    qDebug() << "ctor";
+}
+
+
+DummyObject::~DummyObject()
+{
+    qDebug() << "dtor";
+}

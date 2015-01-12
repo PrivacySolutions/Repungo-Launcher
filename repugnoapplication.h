@@ -8,7 +8,6 @@
 #include "repugnotray.h"
 #include "applauncher.h"
 #include "i2plauncher.h"
-#include "i2pmonitor.h"
 
 class RepugnoApplication : public QApplication
 {
@@ -39,9 +38,8 @@ private:
     QString m_abscondPath;
 #endif
 
-    RepugnoTray *m_trayIcon;
-    QSettings *m_longtermMemory;
-    I2PMonitor *m_i2pMonitor;
+    RepugnoTray m_trayIcon;
+    QSettings m_longtermMemory;
 
 };
 

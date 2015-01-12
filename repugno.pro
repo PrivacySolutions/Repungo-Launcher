@@ -23,21 +23,17 @@ win32:LIBS = -lwsock32 -lws2_32
 SOURCES += main.cpp repugnoapplication.cpp \
     repugnotray.cpp \
     i2plauncher.cpp \
-    dummyobject.cpp \
     applauncher.cpp \
     childprocessthread.cpp \
-    i2pmonitor.cpp
+    utils.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
     i2plauncher.h \
-    dummyobject.h \
     applauncher.h \
     childprocessthread.h \
-    ilauncher.h \
-    netcheck.h \
-    i2pmonitor.h \
-    versioninfo.h
+    versioninfo.h \
+    utils.h
 
 RESOURCES += \
     resources.qrc

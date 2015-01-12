@@ -2,8 +2,7 @@
 #define APPLAUNCHER_H
 
 #include <QProcess>
-#include "dummyobject.h"
-#include "ilauncher.h"
+#include "utils.h"
 
 // TODO: Sandboxing, see QProcess::setupChildProcess() @ http://qt-project.org/doc/qt-5/qprocess.html
 
