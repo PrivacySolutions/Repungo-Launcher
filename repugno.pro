@@ -13,6 +13,8 @@ TARGET = Repugno
 CONFIG -= console
 CONFIG   -= app_bundle
 
+#DEFINES += BUILD_WITH_BROWSER=1
+
 TEMPLATE = app
 
 win32:RC_FILE = win32res.rc
@@ -24,9 +26,7 @@ SOURCES += main.cpp repugnoapplication.cpp \
     dummyobject.cpp \
     applauncher.cpp \
     childprocessthread.cpp \
-    ilauncher.cpp \
-    i2pmonitor.cpp \
-    resetidentity.cpp
+    i2pmonitor.cpp
 
 HEADERS += repugnoapplication.h \
     repugnotray.h \
@@ -37,7 +37,6 @@ HEADERS += repugnoapplication.h \
     ilauncher.h \
     netcheck.h \
     i2pmonitor.h \
-    resetidentity.h \
     versioninfo.h
 
 RESOURCES += \

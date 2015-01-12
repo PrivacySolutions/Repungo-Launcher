@@ -17,6 +17,7 @@
 #include "childprocessthread.h"
 
 
+#ifdef BUILD_WITH_BROWSER
 QString RepugnoApplication::getBrowserParameters(QString concat, bool init)
 {
     // Firefox startup
@@ -50,52 +51,7 @@ void RepugnoApplication::LaunchBrowser()
     ChildProcessThread *cpt = new ChildProcessThread(NULL, al, false);
     cpt->start();
 }
-
-void RepugnoApplication::InitAll()
-{
-    // Start with I2P, it needs 2minutes.
-    qDebug() << "I2P Path is: " << m_i2pPath;
-    I2PLauncher *i2pLauncher = new I2PLauncher(m_i2pMonitor, m_i2pPath);
-    ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
-    cpt->start();
-
-    // Message about 2min warmup
-    if (m_longtermMemory->value("donotshowagainboxes/thewarmupinfo", 0).toInt() == 0)
-    {
-        QMessageBox msgBox;
-        m_longtermMemory->setValue("donotshowagainboxes/thewarmupinfo", 1);
-        msgBox.setText(tr("Hi and welcome!\n\nPlease take those 30 seconds it takes to read this; like Tor isn't, I2P is 100% decentralizated."
-                       "\nThis means that it usually takes 2-3minutes before you can start using I2P as regular.\n\n"
-                       "Please also note that the router itself is self-learning which means that the longer you keep it running,"
-                       "\nprobably the better speed you get too!\n\nEnjoy!"));
-        msgBox.exec();
-    }
-
-    // Verifying tha i2pd is runnig
-    const char *ipaddr = "127.0.0.1";
-    int port = 7070;
-    int maxTries = 30;
-    int tries;
-    bool error = false;
-    while (!is_alive(ipaddr, port, 1 /* Testing 1sec for each round */))
-    {
-        // Waiting... :)
-        if (tries==maxTries)
-        {
-            qDebug() << "Trying to connect to i2pd...";
-            error = true;
-        }
-        tries++;
-    }
-    if (error)
-    {
-        tellAboutTheFuckup(QString("I2P isn't responding. Errno #0001"),QString("I2P doesn't respond. The timeout has reached. Something must be wrong!"));
-        QCoreApplication::exit(1);
-    }
-
-    // Browser
-    LaunchBrowser();
-}
+#endif
 
 void RepugnoApplication::tellAboutTheFuckup(QString title, QString msg)
 {
@@ -123,12 +79,45 @@ void RepugnoApplication::rememberLastNight()
     qDebug() << "Trying to load paths";
     // Preload paths
     locateI2P();
+#ifdef BUILD_WITH_BROWSER
     locateAbscond();
+#endif
 
-    // Init process
-    InitAll();
+    // Start with I2P, it needs 2minutes.
+    qDebug() << "I2P Path is: " << m_i2pPath;
+    I2PLauncher *i2pLauncher = new I2PLauncher(m_i2pMonitor, m_i2pPath);
+    ChildProcessThread *cpt = new ChildProcessThread(NULL, i2pLauncher, false);
+    cpt->start();
+
+    // Verifying tha i2pd is runnig
+    const char *ipaddr = "127.0.0.1";
+    int port = 7070;
+    int maxTries = 30;
+    int tries;
+    bool error = false;
+    while (!is_alive(ipaddr, port, 1 /* Testing 1sec for each round */))
+    {
+        // Waiting... :)
+        if (tries==maxTries)
+        {
+            qDebug() << "Trying to connect to i2pd...";
+            error = true;
+        }
+        tries++;
+    }
+    if (error)
+    {
+        tellAboutTheFuckup(QString("I2P isn't responding. Errno #0001"),QString("I2P doesn't respond. The timeout has reached. Something must be wrong!"));
+        QCoreApplication::exit(1);
+    }
+
+#ifdef BUILD_WITH_BROWSER
+    // Browser
+    LaunchBrowser();
+#endif
 }
 
+#ifdef BUILD_WITH_BROWSER
 void RepugnoApplication::locateAbscond()
 {
 #ifdef Q_OS_MACX
@@ -161,6 +150,7 @@ void RepugnoApplication::locateAbscond()
     // Adding space at last, won't effect commands and will prevent parameter mistakes.
     m_abscondPath = fi.absoluteFilePath()+QString(" ");
 }
+#endif
 
 void RepugnoApplication::locateI2P()
 {
@@ -193,11 +183,13 @@ QString RepugnoApplication::getI2PPath()
     return m_i2pPath;
 }
 
+#ifdef BUILD_WITH_BROWSER
 QString RepugnoApplication::getBrowserPath()
 {
     QFileInfo path(m_abscondPath);
     return path.canonicalPath();
 }
+#endif
 
 void RepugnoApplication::becomeSelfaware()
 {

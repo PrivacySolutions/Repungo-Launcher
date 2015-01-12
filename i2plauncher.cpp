@@ -56,7 +56,7 @@ void I2PLauncher::Run()
     QProcess p;
     //QString cmd = I2PLauncher::GenerateLaunchCommand();
 
-    QString cmd = m_i2pPath + "/i2pd";
+    QString cmd = m_i2pPath + "/i2p";
 #ifdef WIN32
     cmd = cmd + ".exe";
     // Quick fix for Windows, turning slashes.
