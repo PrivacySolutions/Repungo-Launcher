@@ -10,8 +10,7 @@ TARGET = Repugno
 
 # Use the console config only for debugging. Disable it at release
 
-CONFIG -= console
-CONFIG   -= app_bundle
+CONFIG -= console app_bundle
 
 #DEFINES += BUILD_WITH_BROWSER=1
 

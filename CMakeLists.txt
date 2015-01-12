@@ -31,7 +31,8 @@ endif ()
 
 # paths
 set ( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules" )
-set ( CMAKE_SOURCE_DIR "." )
+set ( CMAKE_SOURCE_DIR "src" )
+set ( PROJECT_ROOT "." )
 
 set (SOURCE_FILES
   "${CMAKE_SOURCE_DIR}/main.cpp"
@@ -44,6 +45,10 @@ set (SOURCE_FILES
   )
 
 file (GLOB HEADERS "${CMAKE_SOURCE_DIR}/*.h")
+set ( HEADERS
+  "${HEADERS}"
+  "${PROJECT_ROOT}/build.h"
+  )
 
 # MSVS grouping
 source_group ("Header Files" FILES ${HEADERS})
