@@ -38,12 +38,9 @@ set (SOURCE_FILES
   "${CMAKE_SOURCE_DIR}/repugnoapplication.cpp"
   "${CMAKE_SOURCE_DIR}/repugnotray.cpp"
   "${CMAKE_SOURCE_DIR}/i2plauncher.cpp"
-  "${CMAKE_SOURCE_DIR}/dummyobject.cpp"
+  "${CMAKE_SOURCE_DIR}/utils.cpp"
   "${CMAKE_SOURCE_DIR}/applauncher.cpp"
   "${CMAKE_SOURCE_DIR}/childprocessthread.cpp"
-  "${CMAKE_SOURCE_DIR}/ilauncher.cpp"
-  "${CMAKE_SOURCE_DIR}/i2pmonitor.cpp"
-  "${CMAKE_SOURCE_DIR}/resetidentity.cpp"
   )
 
 file (GLOB HEADERS "${CMAKE_SOURCE_DIR}/*.h")
