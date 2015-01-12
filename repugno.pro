@@ -17,23 +17,24 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-win32:RC_FILE = win32res.rc
+win32:RC_FILE = res/win32res.rc
 win32:LIBS = -lwsock32 -lws2_32
 
-SOURCES += main.cpp repugnoapplication.cpp \
-    repugnotray.cpp \
-    i2plauncher.cpp \
-    applauncher.cpp \
-    childprocessthread.cpp \
-    utils.cpp
+SOURCES += src/main.cpp src/repugnoapplication.cpp \
+    src/repugnotray.cpp \
+    src/i2plauncher.cpp \
+    src/applauncher.cpp \
+    src/childprocessthread.cpp \
+    src/utils.cpp
 
-HEADERS += repugnoapplication.h \
-    repugnotray.h \
-    i2plauncher.h \
-    applauncher.h \
-    childprocessthread.h \
-    versioninfo.h \
-    utils.h
+HEADERS += src/repugnoapplication.h \
+    src/repugnotray.h \
+    src/i2plauncher.h \
+    src/applauncher.h \
+    src/childprocessthread.h \
+    src/versioninfo.h \
+    src/utils.h \
+    build.h
 
 RESOURCES += \
-    resources.qrc
+    src/resources.qrc
